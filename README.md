@@ -13,8 +13,6 @@ get incomplete error information, or in the worst case the program may crash.
 Example program
 ---------------
 
-    -- MOBILELUA BEGIN
-    
     -- PaintDemoBasic.lua
     -- Author: Mikael Kindborg
     -- Date: 2011-02-23
@@ -48,7 +46,7 @@ Example program
 Contact
 -------
 
-mikael.kindborg@mosync.com
+mikael.kindborg@mosync.com  
 mikael.kindborg@gmail.com
 
 License
@@ -56,4 +54,4 @@ License
 
 Unless stated otherwise, the MIT license is used for the source code.
 
-Each source file should contain a license heder.
+Each source file should contain a license header.

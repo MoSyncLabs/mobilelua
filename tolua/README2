@@ -1,0 +1,32 @@
+This is an update of tolua-5.1.4 that adds support 
+for string constants.
+
+Example:
+
+  #define NAME "Mikael"
+
+Files modified:
+
+  src/bin/lua/container.lua
+  src/bin/lua/define.lua
+  src/lib/tolua_map.c
+  src/tests/tconstant.h
+  src/tests/tconstant.lua
+  src/tests/tconstant.pkg
+  include/tolua.h
+
+Same terms of use apply to this update as is stated
+in the original README file of this distribution:
+
+  tolua is freely available; you can redistribute it and/or modify it.
+  The software provided hereunder is on an "as is" basis, and
+  the author has no obligation to provide maintenance, support, 
+  updates, enhancements, or modifications.
+
+Credit:
+
+  tolua has been designed and implemented by Waldemar Celes,
+  celes@tecgraf.puc-rio.br
+
+  The update for string constants has been implemented by
+  Mikael Kindborg, mikael.kindborg@mosync.com

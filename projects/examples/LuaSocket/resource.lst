@@ -1,0 +1,7 @@
+.res LUALIB
+.bin
+.include "../../common/LuaLib.lua"
+
+.res LUASOCKET
+.bin
+.include "LuaSocket.lua"

@@ -1,0 +1,29 @@
+HOW TO GENERTE LUA BIDNINGS FOR MOSYNC
+
+Note that this is only needed when the MoSync API is 
+changed or updated. It is the intention of the MoSync 
+team to keep MobileLua in sync with the latest MoSync
+release or a recent nightly build.
+
+tolua is used to generate bindings from Lua to MoSync.
+Download tolua and build an executable. Download site:
+http://www.tecgraf.puc-rio.br/~celes/tolua/
+You need to download and build Lua before building
+tolua. Download Lua from: http://www.lua.org
+
+1. Run the MoSync IDL compiler. 
+A header file usable by tolua is created: tools/idl2/Output/lua_maapi.h
+
+2. Copy the lua_maapi.h to directory MobileLua/MobileLuaLib/tolua/ 
+in the MobileLua project.
+
+3. Run the Ruby script MobileLua/MobileLuaLib/tolua/makebindings.rb
+You will need to update the path to the tolua executable in the
+makebindings.rb script.
+The script generates an file named lua_maapi.pkg that is then processed 
+by tolua to create lua_maapi.c, which contains the Lua bindings.
+
+4. Rebuild project MobileLuaLib in MoSync and the applications that you 
+wish to use.
+
+Done.

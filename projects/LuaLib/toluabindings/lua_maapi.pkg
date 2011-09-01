@@ -930,6 +930,7 @@ int SysEventGetNativeKey(void* event);
 uint SysEventGetCharacter(void* event);
 int SysEventGetX(void* event);
 int SysEventGetY(void* event);
+int SysEventGetTouchId(void* event);
 int SysEventGetState(void* event);
 MAHandle SysEventGetConnHandle(void* event);
 int SysEventGetConnOpType(void* event);

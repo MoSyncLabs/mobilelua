@@ -1,6 +1,6 @@
 /*
 ** Lua binding: lua_maapi
-** Generated automatically by tolua 5.1.4 on Wed Aug 31 14:37:17 2011.
+** Generated automatically by tolua 5.1.4 on Thu Sep  1 11:58:42 2011.
 */
 
 #include "tolua.h"
@@ -7780,6 +7780,33 @@ static int tolua_lua_maapi_SysEventGetY00(lua_State* tolua_S)
 #endif
 }
 
+/* function: SysEventGetTouchId */
+static int tolua_lua_maapi_SysEventGetTouchId00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* event = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  SysEventGetTouchId(event);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysEventGetTouchId'.",&tolua_err);
+ return 0;
+#endif
+}
+
 /* function: SysEventGetState */
 static int tolua_lua_maapi_SysEventGetState00(lua_State* tolua_S)
 {
@@ -9325,6 +9352,7 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_function(tolua_S,"SysEventGetCharacter",tolua_lua_maapi_SysEventGetCharacter00);
  tolua_function(tolua_S,"SysEventGetX",tolua_lua_maapi_SysEventGetX00);
  tolua_function(tolua_S,"SysEventGetY",tolua_lua_maapi_SysEventGetY00);
+ tolua_function(tolua_S,"SysEventGetTouchId",tolua_lua_maapi_SysEventGetTouchId00);
  tolua_function(tolua_S,"SysEventGetState",tolua_lua_maapi_SysEventGetState00);
  tolua_function(tolua_S,"SysEventGetConnHandle",tolua_lua_maapi_SysEventGetConnHandle00);
  tolua_function(tolua_S,"SysEventGetConnOpType",tolua_lua_maapi_SysEventGetConnOpType00);

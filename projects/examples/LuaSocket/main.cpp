@@ -37,11 +37,11 @@ extern "C" int MAMain()
 	engine.eval(LUALIB);
 
 	// Load and run the application.
-	// The application will enter the main event loop,
-	// which is in LuaLib.lua.
 	engine.eval(LUASOCKET);
 
-	engine.eval("System.runEventLoop()");
+	// Enter the MoSync event loop.
+	// RunEventLoop is defined in LuaLib.lua.
+	engine.eval("EventMonitor:RunEventLoop()");
 
 	return 0;
 }

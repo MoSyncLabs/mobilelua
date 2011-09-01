@@ -206,7 +206,7 @@ static int luaToString(lua_State *L)
 static void registerNativeFunctions(lua_State* L)
 {
 	RegFun(L, "print", luaPrint);
-	RegTableFun(L, "System", "log", luaLog);
+	RegFun(L, "log", luaLog);
 	RegFun(L, "SysBufferToString", luaToString);
 }
 

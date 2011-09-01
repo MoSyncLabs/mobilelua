@@ -226,6 +226,11 @@ extern "C" int SysEventGetY(MAEvent* event)
 	return event->point.y;
 }
 
+extern "C" int SysEventGetTouchId(MAEvent* event)
+{
+	return event->touchId;
+}
+
 extern "C" int SysEventGetState(MAEvent* event)
 {
 	return event->state;

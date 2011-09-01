@@ -98,6 +98,7 @@ int SysEventGetNativeKey(MAEvent* event);
 uint SysEventGetCharacter(MAEvent* event);
 int SysEventGetX(MAEvent* event);
 int SysEventGetY(MAEvent* event);
+int SysEventGetTouchId(MAEvent* event);
 int SysEventGetState(MAEvent* event);
 MAHandle SysEventGetConnHandle(MAEvent* event);
 int SysEventGetConnOpType(MAEvent* event);

@@ -40,15 +40,15 @@ Tested in MoRE and on Android.
 function Main()
   print("Touch screen to open a socket connection.")
   print("Press BACK or Key 0 to exit.")
-  System.onTouchUp(OpenSocket)
-  System.onKeyDown(OnKeyDown)
+  EventMonitor:OnTouchUp(OpenSocket)
+  EventMonitor:OnKeyDown(OnKeyDown)
 end
 
 function OpenSocket()
   local connection = maConnect("socket://www.openplay.se:80")
   print("maConnect result: " .. connection)
   if connection > 0 then
-    System.setConnectionFun(connection, CreateConnectionListener())
+    EventMonitor:SetConnectionFun(connection, CreateConnectionListener())
   end
 end
 
@@ -101,17 +101,20 @@ function CreateConnectionListener()
       -- Clean up.
       SysFree(inBuffer)
       SysFree(outBuffer)
-      System.removeConnectionFun(connection)
+      EventMonitor:RemoveConnectionFun(connection)
       maConnClose(connection)
+      -- Print message.
+      print("Test complete - read data.")
+      print("Press BACK or Key 0 to exit.")
     end
 
   end
 end
 
---[[
-  Copy string char values to a C buffer.
-  Note that in Lua first element has index one,
-  in a C buffer first byte has index zero.
+--[[ 
+Copy string char values to a C buffer.
+Note that in Lua first element has index one,
+in a C buffer first byte has index zero.
 ]]
 function WriteStringToBuffer(s, buffer)
   --print(s)
@@ -147,5 +150,5 @@ function PrintBuffer(buffer, size)
   print(line)
 end
 
---[[ Start the program ]]
+-- Start the program
 Main()

@@ -13,35 +13,27 @@ get incomplete error information, or in the worst case the program may crash.
 Example program
 ---------------
 
-    -- PaintDemoBasic.lua
-    -- Author: Mikael Kindborg
-    -- Date: 2011-02-23
-    -- Description: Simple paint program demo. Supports multi-touch!
+The follwoing is a very simple paint application. Supports multi-touch.
     
     -- Fill screen with background color.
-    Screen.setColor(255, 255, 255)
-    Screen.fillRect(0, 0, Screen.getWidth(), Screen.getHeight())
-    Screen.update()
+    Screen:SetColor(255, 255, 255)
+    Screen:Fill()
+    Screen:Update()
     
     -- Function that paints a "brush stamp" on the screen.
-    function paint(x, y, touchId)
+    function Paint(x, y, touchId)
       if touchId == 0 then 
-        Screen.setColor(0, 0, 0) 
+        Screen:SetColor(0, 0, 0) 
       else
-        Screen.setColor(0, 200, 0) 
-      end
-      Screen.fillRect(x - 20, y - 20, 40, 40)
-      Screen.update()
-    end
+        Screen:SetColor(0, 200, 0) 
+      end    
+      Screen:FillRect(x - 20, y - 20, 40, 40)
+      Screen:Update()
+    end    
     
-    -- Bind the paint function to touch events.
-    System.onTouchDown(paint)
-    System.onTouchDrag(paint)
-    
-    -- Enter the system event loop (blocking call, events
-    -- will be dispatched to registered event functions).
-    System.runEventLoop()
-
+    -- Bind the Paint function to touch events.
+    EventMonitor:OnTouchDown(Paint)
+    EventMonitor:OnTouchDrag(Paint)
 
 Contact
 -------

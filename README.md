@@ -13,7 +13,7 @@ get incomplete error information, or in the worst case the program may crash.
 Example program
 ---------------
 
-The follwoing is a very simple paint application. Supports multi-touch.
+The following is a very simple paint application. Supports multi-touch.
     
     -- Fill screen with background color.
     Screen:SetColor(255, 255, 255)

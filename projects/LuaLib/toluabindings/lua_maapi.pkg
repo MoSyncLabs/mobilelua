@@ -434,7 +434,7 @@ void maSoundStop(void);
 int maSoundIsPlaying(void);
 int maSoundGetVolume(void);
 void maSoundSetVolume(int vol);
-//longlong maInvokeExtension(int function, int a, int b, int c MA_IOCTL_ELLIPSIS);
+longlong maInvokeExtension(int function, int a, int b, int c MA_IOCTL_ELLIPSIS);
 // End of header functions.
 MAHandle maFontLoadDefault(int type, int style, int size);
 MAHandle maFontSetCurrent(MAHandle font);
@@ -910,18 +910,54 @@ void* SysAlloc(int size);
  */
 void SysFree(void* buffer);
 
-// Buffer of type void*
-int SysBufferGetInt(void* buffer, int offset);
-void SysBufferSetInt(void* buffer, int offset, int value);
-int SysBufferGetByte(void* buffer, int offset);
-void SysBufferSetByte(void* buffer, int offset, int value);
+/**
+ * Get an int value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to an integer index (as if the
+ * memory block was an array of ints).
+ * @return The int at the given index.
+ */
+int SysBufferGetInt(void* buffer, int index);
 
 /**
- * This function is implemented in LuaEngine.cpp.
- * This declaration is here for documentation purposes only.
+ * Set an int value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to an integer index (as if the
+ * memory block was an array of ints).
  */
-//void SysBufferToString(void* buffer);
+void SysBufferSetInt(void* buffer, int index, int value);
 
+/**
+ * Get a byte value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to a byte index (as if the
+ * memory block was an array of bytes).
+ * @return The byte value at the given index.
+ */
+int SysBufferGetByte(void* buffer, int index);
+
+/**
+ * Set a byte value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to a byte index (as if the
+ * memory block was an array of bytes).
+ */
+void SysBufferSetByte(void* buffer, int index, int value);
+
+/**
+ * Copy bytes from one memory block to another. The number of bytes
+ * given by numberOfBytesToCopy bytes, starting at sourceIndex in 
+ * the source block, will be copied to the destination block, 
+ * starting at destIndex.
+ * @param sourceBuffer Pointer to the source memory block.
+ * @param sourceIndex Offset to a byte index in the source block.
+ * @param destBuffer Pointer to the destination memory block.
+ * @param destIndex Offset to a byte index in the destination block.
+ * @param numberOfBytesToCopy Number of bytes that will be copied
+ * from source to destination.
+ */
+void SysBufferCopyBytes(void* sourceBuffer, int sourceIndex, void* destBuffer, int destIndex, int numberOfBytesToCopy);
+	
 // MAEvent
 void* SysEventCreate();
 int SysEventGetType(void* event);
@@ -989,3 +1025,22 @@ char* SysStringWideCharToChar(const void* wstr);
  * will be returned.
  */
 char* SysLoadStringResource(MAHandle handle);
+
+/*
+These Lua functions are implemented in LuaEngine.cpp.
+They are listed here for documentation purposes,
+to make the list of Lua "Sys" functions complete.
+
+-- Convert a null-terminated C-string pointer to
+-- by "buffer" to a Lua string.
+SysBufferToString(buffer) -> string
+
+-- Create a new instance of the Lua engine.
+SysLuaEngineCreate() -> ref to the engine
+
+-- Delete a Lua engine.
+SysLuaEngineDelete(engine) -> none
+
+-- Evaluate Lua code. Param code is a string.
+SysLuaEngineEval(engine, code) -> boolean
+*/

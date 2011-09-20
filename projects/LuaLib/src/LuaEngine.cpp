@@ -203,11 +203,75 @@ static int luaToString(lua_State *L)
 	return 1; // Number of results
 }
 
+/**
+ * Create a new Lua engine instance.
+ * Currently does no error checking (update
+ * this comment if that is added).
+ */
+static int luaEngineCreate(lua_State *L)
+{
+	LuaEngine* engine = new LuaEngine();
+	engine->initialize();
+	lua_pushlightuserdata(L, engine);
+
+	return 1; // Number of results
+}
+
+/**
+ * Delete a Lua engine instance.
+ */
+static int luaEngineDelete(lua_State *L)
+{
+	// First param is pointer to the engine, it must not
+	// be nil and must be light user data.
+	if (!lua_isnoneornil(L, 1) && lua_islightuserdata(L, 1))
+	{
+		LuaEngine* engine = (LuaEngine*) lua_touserdata(L, 1);
+		if (NULL != engine)
+		{
+			delete engine;
+		}
+	}
+	
+	return 0; // Number of results
+}
+
+/**
+ * Evaluate Lua code.
+ */
+static int luaEngineEval(lua_State *L)
+{
+	// First param is pointer to the engine, it must not
+	// be nil and must be light user data.
+	if (!lua_isnoneornil(L, 1) && lua_islightuserdata(L, 1))
+	{
+		LuaEngine* engine = (LuaEngine*) lua_touserdata(L, 1);
+		if (NULL != engine)
+		{
+			const char* code = luaL_checkstring(L, 2);
+			int result = engine->eval(code);
+			if (0 != result)
+			{
+				// Return true to Lua.
+				lua_pushboolean(L, 1);
+				return 1; // Number of results
+			}
+		}
+	}
+	
+	// Return false to Lua.
+	lua_pushboolean(L, 0);
+	return 1; // Number of results
+}
+
 static void registerNativeFunctions(lua_State* L)
 {
 	RegFun(L, "print", luaPrint);
 	RegFun(L, "log", luaLog);
 	RegFun(L, "SysBufferToString", luaToString);
+	RegFun(L, "SysLuaEngineCreate", luaEngineCreate);
+	RegFun(L, "SysLuaEngineDelete", luaEngineDelete);
+	RegFun(L, "SysLuaEngineEval", luaEngineEval);
 }
 
 // ========== Constructor/Destructor ==========

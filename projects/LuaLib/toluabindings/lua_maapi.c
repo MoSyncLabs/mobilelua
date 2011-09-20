@@ -1,6 +1,6 @@
 /*
 ** Lua binding: lua_maapi
-** Generated automatically by tolua 5.1.4 on Thu Sep  1 11:58:42 2011.
+** Generated automatically by tolua 5.1.4 on Tue Sep 20 10:53:07 2011.
 */
 
 #include "tolua.h"
@@ -20,9 +20,24 @@ TOLUA_API int tolua_lua_maapi_open (lua_State* tolua_S);
 LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S);
 
 
+/* function to release collected object via destructor */
+#ifdef __cplusplus
+
+static int tolua_collect_longlong (lua_State* tolua_S)
+{
+ longlong* self = (longlong*) tolua_tousertype(tolua_S,1,0);
+ tolua_release(tolua_S,self);
+ delete self;
+ return 0;
+}
+#endif
+
+
 /* function to register type */
 static void tolua_reg_types (lua_State* tolua_S)
 {
+ tolua_usertype(tolua_S,"longlong");
+ tolua_usertype(tolua_S,"c");
 }
 
 /* function: maCheckInterfaceVersion */
@@ -2671,6 +2686,47 @@ static int tolua_lua_maapi_maSoundSetVolume00(lua_State* tolua_S)
  return 0;
 #endif
 }
+
+///* function: maInvokeExtension */
+//static int tolua_lua_maapi_maInvokeExtension00(lua_State* tolua_S)
+//{
+//#ifndef TOLUA_RELEASE
+// tolua_Error tolua_err;
+// if (
+// !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+// !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+// !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+// !tolua_isusertype(tolua_S,4,"c",0,&tolua_err) ||
+// !tolua_isnoobj(tolua_S,5,&tolua_err)
+// )
+// goto tolua_lerror;
+// else
+//#endif
+// {
+//  int function = ((int)  tolua_tonumber(tolua_S,1,0));
+//  int a = ((int)  tolua_tonumber(tolua_S,2,0));
+//  int b = ((int)  tolua_tonumber(tolua_S,3,0));
+//  int c MA_IOCTL_ELLIPSIS = *((int c*)  tolua_tousertype(tolua_S,4,0));
+// {
+//  longlong tolua_ret =  maInvokeExtension(function,a,b,MA_IOCTL_ELLIPSIS);
+// {
+//#ifdef __cplusplus
+// void* tolua_obj = new longlong(tolua_ret);
+// tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj,tolua_collect_longlong),"longlong");
+//#else
+// void* tolua_obj = tolua_copy(tolua_S,(void*)&tolua_ret,sizeof(longlong));
+// tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj,NULL),"longlong");
+//#endif
+// }
+// }
+// }
+// return 1;
+//#ifndef TOLUA_RELEASE
+// tolua_lerror:
+// tolua_error(tolua_S,"#ferror in function 'maInvokeExtension'.",&tolua_err);
+// return 0;
+//#endif
+//}
 
 /* function: maFontLoadDefault */
 static int tolua_lua_maapi_maFontLoadDefault00(lua_State* tolua_S)
@@ -7490,9 +7546,9 @@ static int tolua_lua_maapi_SysBufferGetInt00(lua_State* tolua_S)
 #endif
  {
   void* buffer = ((void*)  tolua_touserdata(tolua_S,1,0));
-  int offset = ((int)  tolua_tonumber(tolua_S,2,0));
+  int index = ((int)  tolua_tonumber(tolua_S,2,0));
  {
-  int tolua_ret = (int)  SysBufferGetInt(buffer,offset);
+  int tolua_ret = (int)  SysBufferGetInt(buffer,index);
  tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
  }
  }
@@ -7520,10 +7576,10 @@ static int tolua_lua_maapi_SysBufferSetInt00(lua_State* tolua_S)
 #endif
  {
   void* buffer = ((void*)  tolua_touserdata(tolua_S,1,0));
-  int offset = ((int)  tolua_tonumber(tolua_S,2,0));
+  int index = ((int)  tolua_tonumber(tolua_S,2,0));
   int value = ((int)  tolua_tonumber(tolua_S,3,0));
  {
-  SysBufferSetInt(buffer,offset,value);
+  SysBufferSetInt(buffer,index,value);
  }
  }
  return 0;
@@ -7549,9 +7605,9 @@ static int tolua_lua_maapi_SysBufferGetByte00(lua_State* tolua_S)
 #endif
  {
   void* buffer = ((void*)  tolua_touserdata(tolua_S,1,0));
-  int offset = ((int)  tolua_tonumber(tolua_S,2,0));
+  int index = ((int)  tolua_tonumber(tolua_S,2,0));
  {
-  int tolua_ret = (int)  SysBufferGetByte(buffer,offset);
+  int tolua_ret = (int)  SysBufferGetByte(buffer,index);
  tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
  }
  }
@@ -7579,16 +7635,50 @@ static int tolua_lua_maapi_SysBufferSetByte00(lua_State* tolua_S)
 #endif
  {
   void* buffer = ((void*)  tolua_touserdata(tolua_S,1,0));
-  int offset = ((int)  tolua_tonumber(tolua_S,2,0));
+  int index = ((int)  tolua_tonumber(tolua_S,2,0));
   int value = ((int)  tolua_tonumber(tolua_S,3,0));
  {
-  SysBufferSetByte(buffer,offset,value);
+  SysBufferSetByte(buffer,index,value);
  }
  }
  return 0;
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'SysBufferSetByte'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysBufferCopyBytes */
+static int tolua_lua_maapi_SysBufferCopyBytes00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,4,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,5,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* sourceBuffer = ((void*)  tolua_touserdata(tolua_S,1,0));
+  int sourceIndex = ((int)  tolua_tonumber(tolua_S,2,0));
+  void* destBuffer = ((void*)  tolua_touserdata(tolua_S,3,0));
+  int destIndex = ((int)  tolua_tonumber(tolua_S,4,0));
+  int numberOfBytesToCopy = ((int)  tolua_tonumber(tolua_S,5,0));
+ {
+  SysBufferCopyBytes(sourceBuffer,sourceIndex,destBuffer,destIndex,numberOfBytesToCopy);
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysBufferCopyBytes'.",&tolua_err);
  return 0;
 #endif
 }
@@ -8983,6 +9073,7 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_function(tolua_S,"maSoundIsPlaying",tolua_lua_maapi_maSoundIsPlaying00);
  tolua_function(tolua_S,"maSoundGetVolume",tolua_lua_maapi_maSoundGetVolume00);
  tolua_function(tolua_S,"maSoundSetVolume",tolua_lua_maapi_maSoundSetVolume00);
+// tolua_function(tolua_S,"maInvokeExtension",tolua_lua_maapi_maInvokeExtension00);
  tolua_function(tolua_S,"maFontLoadDefault",tolua_lua_maapi_maFontLoadDefault00);
  tolua_function(tolua_S,"maFontSetCurrent",tolua_lua_maapi_maFontSetCurrent00);
  tolua_function(tolua_S,"maFontGetCount",tolua_lua_maapi_maFontGetCount00);
@@ -9345,6 +9436,7 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_function(tolua_S,"SysBufferSetInt",tolua_lua_maapi_SysBufferSetInt00);
  tolua_function(tolua_S,"SysBufferGetByte",tolua_lua_maapi_SysBufferGetByte00);
  tolua_function(tolua_S,"SysBufferSetByte",tolua_lua_maapi_SysBufferSetByte00);
+ tolua_function(tolua_S,"SysBufferCopyBytes",tolua_lua_maapi_SysBufferCopyBytes00);
  tolua_function(tolua_S,"SysEventCreate",tolua_lua_maapi_SysEventCreate00);
  tolua_function(tolua_S,"SysEventGetType",tolua_lua_maapi_SysEventGetType00);
  tolua_function(tolua_S,"SysEventGetKey",tolua_lua_maapi_SysEventGetKey00);

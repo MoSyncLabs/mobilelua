@@ -434,7 +434,7 @@ void maSoundStop(void);
 int maSoundIsPlaying(void);
 int maSoundGetVolume(void);
 void maSoundSetVolume(int vol);
-//longlong maInvokeExtension(int function, int a, int b, int c MA_IOCTL_ELLIPSIS);
+longlong maInvokeExtension(int function, int a, int b, int c MA_IOCTL_ELLIPSIS);
 // End of header functions.
 MAHandle maFontLoadDefault(int type, int style, int size);
 MAHandle maFontSetCurrent(MAHandle font);

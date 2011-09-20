@@ -154,6 +154,9 @@ extern "C" void SysTextDrawString(void* textObj, int x, int y, int extent)
  * Functions for making it easier to use syscalls from Lua
  **********************************************************/
 
+/**
+ * Allocate a memory block.
+ */
 extern "C" void* SysAlloc(int size)
 {
 	return malloc(size);
@@ -167,28 +170,83 @@ extern "C" void SysFree(void* buffer)
 	free(buffer);
 }
 
-extern "C" int SysBufferGetInt(void* buffer, int offset)
+/**
+ * Get an int value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to an integer index (as if the
+ * memory block was an array of ints).
+ * @return The int at the given index.
+ */
+extern "C" int SysBufferGetInt(void* buffer, int index)
 {
 	int* p = (int*) buffer;
-	return p[offset];
+	return p[index];
 }
 
-extern "C" void SysBufferSetInt(void* buffer, int offset, int value)
+/**
+ * Set an int value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to an integer index (as if the
+ * memory block was an array of ints).
+ */
+extern "C" void SysBufferSetInt(void* buffer, int index, int value)
 {
 	int* p = (int*) buffer;
-	p[offset] = value;
+	p[index] = value;
 }
 
-extern "C" int SysBufferGetByte(void* buffer, int offset)
+/**
+ * Get a byte value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to a byte index (as if the
+ * memory block was an array of bytes).
+ * @return The byte value at the given index.
+ */
+extern "C" int SysBufferGetByte(void* buffer, int index)
 {
 	byte* p = (byte*) buffer;
-	return (int) (p[offset]);
+	return (int) (p[index]);
 }
 
-extern "C" void SysBufferSetByte(void* buffer, int offset, int value)
+/**
+ * Set a byte value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to a byte index (as if the
+ * memory block was an array of bytes).
+ */
+extern "C" void SysBufferSetByte(void* buffer, int index, int value)
 {
 	byte* p = (byte*) buffer;
-	p[offset] = (byte) value;
+	p[index] = (byte) value;
+}
+
+/**
+ * Copy bytes from one memory block to another. The number of bytes
+ * given by numberOfBytesToCopy bytes, starting at sourceIndex in 
+ * the source block, will be copied to the destination block, 
+ * starting at destIndex.
+ * @param sourceBuffer Pointer to the source memory block.
+ * @param sourceIndex Offset to a byte index in the source block.
+ * @param destBuffer Pointer to the destination memory block.
+ * @param destIndex Offset to a byte index in the destination block.
+ * @param numberOfBytesToCopy Number of bytes that will be copied
+ * from source to destination.
+ */
+extern "C" void SysBufferCopyBytes(
+	void* sourceBuffer, 
+	int sourceIndex, 
+	void* destBuffer, 
+	int destIndex, 
+	int numberOfBytesToCopy)
+{
+	byte* source = (byte*) sourceBuffer;
+	byte* dest = (byte*) destBuffer;
+	
+	// Not the very fastest implementation perhaps...
+	for (int i = 0; i < numberOfBytesToCopy; ++i)
+	{
+		dest[destIndex + i] = source[sourceIndex + i];
+	}
 }
 
 extern "C" MAEvent* SysEventCreate()

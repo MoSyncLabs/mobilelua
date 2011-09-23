@@ -125,7 +125,23 @@ void SysBufferSetByte(void* buffer, int index, int value);
  * from source to destination.
  */
 void SysBufferCopyBytes(void* sourceBuffer, int sourceIndex, void* destBuffer, int destIndex, int numberOfBytesToCopy);
-	
+
+/**
+ * Return a pointer to a byte at an index in a buffer.
+ * This function is useful when calling functions that
+ * write to memory using a pointer.
+ * @param buffer Pointer to  memory block.
+ * @param index Offset to a byte index.
+ * @return A pointer to the byte at the given index.
+ */
+void* SysBufferGetBytePointer(void* buffer, int index);
+
+int SysBitAnd(int a, int b);
+int SysBitOr(int a, int b);
+int SysBitXor(int a, int b);
+int SysBitShiftLeft(int a, int bits);
+int SysBitShiftRight(int a, int bits);
+
 // MAEvent
 MAEvent* SysEventCreate();
 int SysEventGetType(MAEvent* event);

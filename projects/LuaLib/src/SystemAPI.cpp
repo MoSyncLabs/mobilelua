@@ -249,6 +249,49 @@ extern "C" void SysBufferCopyBytes(
 	}
 }
 
+/**
+ * Return a pointer to a byte at an index in a buffer.
+ * This function is useful when calling functions that
+ * write to memory using a pointer.
+ * @param buffer Pointer to  memory block.
+ * @param index Offset to a byte index.
+ * @return A pointer to the byte at the given index.
+ */
+void* SysBufferGetBytePointer(void* buffer, int index)
+{
+	return ((char*) buffer) + index;
+}
+
+extern "C" int SysBitAnd(int a, int b)
+{
+	return ((unsigned int) a) & ((unsigned int) a);
+}
+
+extern "C" int SysBitOr(int a, int b)
+{
+	return ((unsigned int) a) | ((unsigned int) a);
+}
+
+extern "C" int SysBitXor(int a, int b)
+{
+	return ((unsigned int) a) ^ ((unsigned int) a);
+}
+
+extern "C" int SysBitNot(int a)
+{
+	return ~((unsigned int) a);
+}
+
+extern "C" int SysBitShiftLeft(int a, int bits)
+{
+	return ((unsigned int) a) << bits;
+}
+
+extern "C" int SysBitShiftRight(int a, int bits)
+{
+	return ((unsigned int) a) >> bits;
+}
+
 extern "C" MAEvent* SysEventCreate()
 {
 	return (MAEvent*) SysAlloc(sizeof(MAEvent));

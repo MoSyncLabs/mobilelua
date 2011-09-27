@@ -93,22 +93,22 @@ EventMonitor = (function ()
       elseif EVENT_TYPE_POINTER_PRESSED == eventType then
         if nil ~= touchDownFun then
           touchDownFun(
-            SysEventGetX(event), 
-            SysEventGetY(event), 
+            SysEventGetX(event),
+            SysEventGetY(event),
             SysEventGetTouchId(event))
         end
       elseif EVENT_TYPE_POINTER_RELEASED == eventType then
         if nil ~= touchUpFun then
           touchUpFun(
-            SysEventGetX(event), 
-            SysEventGetY(event), 
+            SysEventGetX(event),
+            SysEventGetY(event),
             SysEventGetTouchId(event))
         end
       elseif EVENT_TYPE_POINTER_DRAGGED == eventType then
         if nil ~= touchDragFun then
           touchDragFun(
-            SysEventGetX(event), 
-            SysEventGetY(event), 
+            SysEventGetX(event),
+            SysEventGetY(event),
             SysEventGetTouchId(event))
         end
       elseif EVENT_TYPE_CONN == eventType then
@@ -128,38 +128,38 @@ EventMonitor = (function ()
   end -- End of function runEventLoop
 
   return self
-  
+
 end)()
 
 -- Create the global Screen object
 Screen = (function()
 
   local self = {}
-  
+
   self.Width = function(self)
     return EXTENT_X(maGetScrSize())
   end
-  
+
   self.Height = function(self)
     return EXTENT_Y(maGetScrSize())
   end
-  
+
   self.SetColor = function(self, red, green, blue)
     maSetColor(blue + (green * 256) + (red * 65536))
   end
-  
+
   self.FillRect = function(self, top, left, width, height)
     maFillRect(top, left, width, height)
   end
-  
+
   self.Fill = function(self)
     self:FillRect(0, 0, self:Width(), self:Height())
   end
-  
+
   self.Update = function(self)
     maUpdateScreen()
   end
-  
+
   return self
 
 end)()

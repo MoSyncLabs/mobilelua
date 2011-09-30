@@ -1,6 +1,6 @@
 /*
 ** Lua binding: lua_maapi
-** Generated automatically by tolua 5.1.4 on Mon Sep 26 18:36:15 2011.
+** Generated automatically by tolua 5.1.4 on Thu Sep 29 17:20:19 2011.
 */
 
 #include "tolua.h"
@@ -3856,93 +3856,6 @@ static int tolua_lua_maapi_maFileSeek00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'maFileSeek'.",&tolua_err);
- return 0;
-#endif
-}
-
-/* function: maFileListStart */
-static int tolua_lua_maapi_maFileListStart00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
- !tolua_isstring(tolua_S,1,0,&tolua_err) || 
- !tolua_isstring(tolua_S,2,0,&tolua_err) || 
- !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
- goto tolua_lerror;
- else
-#endif
- {
-  const char* path = ((const char*)  tolua_tostring(tolua_S,1,0));
-  const char* filter = ((const char*)  tolua_tostring(tolua_S,2,0));
- {
-  MAHandle tolua_ret = (MAHandle)  maFileListStart(path,filter);
- tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
- }
- }
- return 1;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'maFileListStart'.",&tolua_err);
- return 0;
-#endif
-}
-
-/* function: maFileListNext */
-static int tolua_lua_maapi_maFileListNext00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
- !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
- !tolua_isstring(tolua_S,2,0,&tolua_err) || 
- !tolua_isnumber(tolua_S,3,0,&tolua_err) || 
- !tolua_isnoobj(tolua_S,4,&tolua_err)
- )
- goto tolua_lerror;
- else
-#endif
- {
-  MAHandle list = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
-  char* nameBuf = ((char*)  tolua_tostring(tolua_S,2,0));
-  int bufSize = ((int)  tolua_tonumber(tolua_S,3,0));
- {
-  int tolua_ret = (int)  maFileListNext(list,nameBuf,bufSize);
- tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
- }
- }
- return 1;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'maFileListNext'.",&tolua_err);
- return 0;
-#endif
-}
-
-/* function: maFileListClose */
-static int tolua_lua_maapi_maFileListClose00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
- !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
- !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
- goto tolua_lerror;
- else
-#endif
- {
-  MAHandle list = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
- {
-  int tolua_ret = (int)  maFileListClose(list);
- tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
- }
- }
- return 1;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'maFileListClose'.",&tolua_err);
  return 0;
 #endif
 }
@@ -9234,9 +9147,6 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_function(tolua_S,"maFileReadToData",tolua_lua_maapi_maFileReadToData00);
  tolua_function(tolua_S,"maFileTell",tolua_lua_maapi_maFileTell00);
  tolua_function(tolua_S,"maFileSeek",tolua_lua_maapi_maFileSeek00);
- tolua_function(tolua_S,"maFileListStart",tolua_lua_maapi_maFileListStart00);
- tolua_function(tolua_S,"maFileListNext",tolua_lua_maapi_maFileListNext00);
- tolua_function(tolua_S,"maFileListClose",tolua_lua_maapi_maFileListClose00);
  tolua_function(tolua_S,"maSendTextSMS",tolua_lua_maapi_maSendTextSMS00);
  tolua_function(tolua_S,"maFrameBufferGetInfo",tolua_lua_maapi_maFrameBufferGetInfo00);
  tolua_function(tolua_S,"maFrameBufferInit",tolua_lua_maapi_maFrameBufferInit00);

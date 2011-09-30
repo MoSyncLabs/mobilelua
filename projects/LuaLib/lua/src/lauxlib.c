@@ -647,7 +647,9 @@ static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {
 static int panic (lua_State *L) {
   (void)L;  /* to avoid warnings */
 #ifdef MOSYNC
-  char message[256];
+  // TODO: Allocate dynamic string of required size,
+  // or truncate error string.
+  char message[1024];
   sprintf(
     message,
     "PANIC: unprotected error in call to Lua API (%s)\n",

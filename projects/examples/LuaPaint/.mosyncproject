@@ -19,8 +19,8 @@
 <property key="build.prefs:ignore.default.include.paths/Release" value="false"/>
 <property key="build.prefs:ignore.default.libraries/Release" value="false"/>
 <property key="build.prefs:ignore.default.library.paths/Release" value="false"/>
-<property key="build.prefs:memory.data/Debug" value="3072"/>
-<property key="build.prefs:memory.data/Release" value="3072"/>
+<property key="build.prefs:memory.data/Debug" value="4096"/>
+<property key="build.prefs:memory.data/Release" value="4096"/>
 <property key="build.prefs:memory.heap/Debug" value="2048"/>
 <property key="build.prefs:memory.heap/Release" value="2048"/>
 <property key="build.prefs:memory.stack/Debug" value="512"/>
@@ -29,6 +29,6 @@
 <property key="dependency.strategy" value="0"/>
 <property key="excludes/Debug" value=""/>
 <property key="excludes/Release" value=""/>
-<property key="template.id" value="project.moblet"/>
+<property key="template.id" value="project.empty"/>
 </properties>
 </project>

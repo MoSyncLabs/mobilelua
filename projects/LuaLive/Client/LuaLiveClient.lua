@@ -137,7 +137,6 @@ function ScriptReceived(buffer, result)
   if result > 0 then
     -- Convert buffer to string.
     local script = SysBufferToString(buffer)
-    log(script)
     -- Evaluate script.
     local fun = loadstring(script)
     local result, value = pcall(fun)
@@ -165,7 +164,6 @@ function WriteResponse(value)
     value = "Undefined"
   end
   local response = "Lua Result: " .. value
-  log(response)
   -- Allocate buffer for the reply, reader plus string data.
   local dataSize = response:len()
   local buffer = SysAlloc(8 + dataSize)
@@ -291,13 +289,12 @@ end
 -- Note that in Lua first element has index one,
 -- in a C buffer first byte has index zero.
 function BufferWriteString(buffer, index, theString)
-  log(theString)
   local bufferIndex = index
   local stringIndex = 1
   for c in theString:gmatch(".") do
     local b = theString:byte(stringIndex)
     --log("Char: " .. c)
-    log("Byte: " .. b)
+    --log("Byte: " .. b)
     SysBufferSetByte(buffer, bufferIndex, b)
     bufferIndex = bufferIndex + 1
     stringIndex = stringIndex + 1

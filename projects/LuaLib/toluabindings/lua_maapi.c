@@ -1,6 +1,6 @@
 /*
 ** Lua binding: lua_maapi
-** Generated automatically by tolua 5.1.4 on Thu Sep 29 17:20:19 2011.
+** Generated automatically by tolua 5.1.4 on Mon Oct  3 13:49:26 2011.
 */
 
 #include "tolua.h"
@@ -9433,7 +9433,6 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant_string(tolua_S,"MAW_VIDEO_VIEW_CURRENT_POSITION",MAW_VIDEO_VIEW_CURRENT_POSITION);
  tolua_constant_string(tolua_S,"MAW_NAV_BAR_TITLE",MAW_NAV_BAR_TITLE);
  tolua_constant_string(tolua_S,"MAW_NAV_BAR_BACK_BTN",MAW_NAV_BAR_BACK_BTN);
- tolua_constant_string(tolua_S,"MAW_NAV_BAR_COLOR",MAW_NAV_BAR_COLOR);
  tolua_function(tolua_S,"maWidgetCreate",tolua_lua_maapi_maWidgetCreate00);
  tolua_function(tolua_S,"maWidgetDestroy",tolua_lua_maapi_maWidgetDestroy00);
  tolua_function(tolua_S,"maWidgetAddChild",tolua_lua_maapi_maWidgetAddChild00);

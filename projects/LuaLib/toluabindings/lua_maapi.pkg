@@ -807,7 +807,7 @@ typedef int MAWidgetHandle;
 #define MAW_VIDEO_VIEW_CURRENT_POSITION "currentPosition"
 #define MAW_NAV_BAR_TITLE "title"
 #define MAW_NAV_BAR_BACK_BTN "backBtn"
-#define MAW_NAV_BAR_COLOR "color"
+//#define MAW_NAV_BAR_COLOR "color"
 //End of defines.
 MAWidgetHandle maWidgetCreate(const char* widgetType);
 int maWidgetDestroy(MAWidgetHandle widget);

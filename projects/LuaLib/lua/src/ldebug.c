@@ -43,6 +43,7 @@ static int currentpc (lua_State *L, CallInfo *ci) {
 
 static int currentline (lua_State *L, CallInfo *ci) {
   int pc = currentpc(L, ci);
+  LUAI_ERRORCHECK(0)
   if (pc < 0)
     return -1;  /* only active lua functions have current-line information */
   else
@@ -61,6 +62,7 @@ LUA_API int lua_sethook (lua_State *L, lua_Hook func, int mask, int count) {
   L->hook = func;
   L->basehookcount = count;
   resethookcount(L);
+  LUAI_ERRORCHECK(0)
   L->hookmask = cast_byte(mask);
   return 1;
 }
@@ -112,9 +114,11 @@ static Proto *getluaproto (CallInfo *ci) {
 static const char *findlocal (lua_State *L, CallInfo *ci, int n) {
   const char *name;
   Proto *fp = getluaproto(ci);
+  LUAI_ERRORCHECK(NULL)
   if (fp && (name = luaF_getlocalname(fp, n, currentpc(L, ci))) != NULL)
     return name;  /* is a local variable in a Lua function */
   else {
+	LUAI_ERRORCHECK(NULL)
     StkId limit = (ci == L->ci) ? L->top : (ci+1)->func;
     if (limit - ci->base >= n && n > 0)  /* is 'n' inside 'ci' stack? */
       return "(*temporary)";
@@ -127,9 +131,11 @@ static const char *findlocal (lua_State *L, CallInfo *ci, int n) {
 LUA_API const char *lua_getlocal (lua_State *L, const lua_Debug *ar, int n) {
   CallInfo *ci = L->base_ci + ar->i_ci;
   const char *name = findlocal(L, ci, n);
+  LUAI_ERRORCHECK(NULL)
   lua_lock(L);
   if (name)
       luaA_pushobject(L, ci->base + (n - 1));
+  LUAI_ERRORCHECK(NULL)
   lua_unlock(L);
   return name;
 }
@@ -138,9 +144,12 @@ LUA_API const char *lua_getlocal (lua_State *L, const lua_Debug *ar, int n) {
 LUA_API const char *lua_setlocal (lua_State *L, const lua_Debug *ar, int n) {
   CallInfo *ci = L->base_ci + ar->i_ci;
   const char *name = findlocal(L, ci, n);
+  LUAI_ERRORCHECK(NULL)
   lua_lock(L);
+  LUAI_ERRORCHECK(NULL)
   if (name)
       setobjs2s(L, ci->base + (n - 1), L->top - 1);
+  LUAI_ERRORCHECK(NULL)
   L->top--;  /* pop value */
   lua_unlock(L);
   return name;
@@ -156,6 +165,7 @@ static void funcinfo (lua_Debug *ar, Closure *cl) {
   }
   else {
     ar->source = getstr(cl->l.p->source);
+    LUAI_ERRORCHECK()
     ar->linedefined = cl->l.p->linedefined;
     ar->lastlinedefined = cl->l.p->lastlinedefined;
     ar->what = (ar->linedefined == 0) ? "main" : "Lua";
@@ -170,6 +180,7 @@ static void info_tailcall (lua_Debug *ar) {
   ar->lastlinedefined = ar->linedefined = ar->currentline = -1;
   ar->source = "=(tail call)";
   luaO_chunkid(ar->short_src, ar->source, LUA_IDSIZE);
+  LUAI_ERRORCHECK()
   ar->nups = 0;
 }
 
@@ -180,11 +191,14 @@ static void collectvalidlines (lua_State *L, Closure *f) {
   }
   else {
     Table *t = luaH_new(L, 0, 0);
+    LUAI_ERRORCHECK()
     int *lineinfo = f->l.p->lineinfo;
     int i;
     for (i=0; i<f->l.p->sizelineinfo; i++)
       setbvalue(luaH_setnum(L, t, lineinfo[i]), 1);
+    LUAI_ERRORCHECK()
     sethvalue(L, L->top, t); 
+    LUAI_ERRORCHECK()
   }
   incr_top(L);
 }
@@ -213,6 +227,7 @@ static int auxgetinfo (lua_State *L, const char *what, lua_Debug *ar,
       }
       case 'n': {
         ar->namewhat = (ci) ? getfuncname(L, ci, &ar->name) : NULL;
+        LUAI_ERRORCHECK()
         if (ar->namewhat == NULL) {
           ar->namewhat = "";  /* not found */
           ar->name = NULL;
@@ -237,23 +252,30 @@ LUA_API int lua_getinfo (lua_State *L, const char *what, lua_Debug *ar) {
   if (*what == '>') {
     StkId func = L->top - 1;
     luai_apicheck(L, ttisfunction(func));
+    LUAI_ERRORCHECK(0)
     what++;  /* skip the '>' */
     f = clvalue(func);
+    LUAI_ERRORCHECK(0)
     L->top--;  /* pop function */
   }
   else if (ar->i_ci != 0) {  /* no tail call? */
     ci = L->base_ci + ar->i_ci;
     lua_assert(ttisfunction(ci->func));
+    LUAI_ERRORCHECK(0)
     f = clvalue(ci->func);
+    LUAI_ERRORCHECK(0)
   }
   status = auxgetinfo(L, what, ar, f, ci);
+  LUAI_ERRORCHECK(0)
   if (strchr(what, 'f')) {
     if (f == NULL) setnilvalue(L->top);
     else setclvalue(L, L->top, f);
+    LUAI_ERRORCHECK(0)
     incr_top(L);
   }
   if (strchr(what, 'L'))
     collectvalidlines(L, f);
+  LUAI_ERRORCHECK(0)
   lua_unlock(L);
   return status;
 }
@@ -624,7 +646,9 @@ void luaG_errormsg (lua_State *L) {
     setobjs2s(L, L->top, L->top - 1);  /* move argument */
     setobjs2s(L, L->top - 1, errfunc);  /* push function */
     incr_top(L);
+    LUAI_ERRORCHECK()
     luaD_call(L, L->top - 2, 1);  /* call it */
+    LUAI_ERRORCHECK()
   }
   luaD_throw(L, LUA_ERRRUN);
 }

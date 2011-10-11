@@ -1,0 +1,1 @@
+java -cp classes\;lib\rsyntaxeditarea\rsyntaxtextarea.jar mosync.lualiveeditor.LuaLiveEditor

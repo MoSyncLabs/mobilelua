@@ -18,6 +18,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * Parts of the code contributed by Paul Kulchenko, https://github.com/pkulchenko
 --]]
 
 --[[
@@ -40,7 +42,11 @@ EventMonitor = (function ()
   local touchDragFun = nil
   local keyDownFun = nil
   local keyUpFun = nil
+  local sensorFun = nil
+  local defaultFun = nil
+  local anyFun = nil
   local connectionFuns = {}
+  local isRunning = false
 
   self.OnTouchDown = function(self, fun)
     touchDownFun = fun
@@ -62,6 +68,18 @@ EventMonitor = (function ()
     keyUpFun = fun
   end
 
+  self.OnSensor = function(self, fun)
+    sensorFun = fun
+  end
+
+  self.OnDefault = function(self, fun)
+    defaultFun = fun
+  end
+
+  self.OnAny = function(self, fun)
+    anyFun = fun
+  end
+  
   self.SetConnectionFun = function(self, connection, fun)
     connectionFuns[connection] = fun
   end
@@ -69,14 +87,21 @@ EventMonitor = (function ()
   self.RemoveConnectionFun = function(self, connection)
     connectionFuns[connection] = nil
   end
+  
+  self.ExitEventLoop = function(self)
+    isRunning = false
+  end
 
   self.RunEventLoop = function(self)
 
     -- Create a MoSync event object.
     local event = SysEventCreate()
 
+	-- Set isRunning flag to true.
+	isRunning = true
+	
     -- This is the event loop.
-    while true do
+    while isRunning do
       maWait(0)
       maGetEvent(event)
       local eventType = SysEventGetType(event)
@@ -119,7 +144,24 @@ EventMonitor = (function ()
             SysEventGetConnOpType(event),
             SysEventGetConnResult(event))
         end
+      elseif EVENT_TYPE_SENSOR == eventType then
+        if nil ~= sensorFun then
+          sensorFun(
+            SysEventSensorGetType(event),
+            SysEventSensorGetValue1(event),
+            SysEventSensorGetValue2(event),
+            SysEventSensorGetValue3(event))
+        end
+      else
+	    -- Handle other events in the default function.
+        if nil ~= defaultFun then
+          defaultFun(event)
+        end
       end -- End of ifs
+	  -- Always pass the event to the any function.
+      if nil ~= anyFun then
+        anyFun(event, result)
+      end
     end -- End of event loop
 
     -- Free the event object.

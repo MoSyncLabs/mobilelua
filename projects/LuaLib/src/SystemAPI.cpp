@@ -221,6 +221,32 @@ extern "C" void SysBufferSetByte(void* buffer, int index, int value)
 }
 
 /**
+ * Get an float value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to a float index (as if the
+ * memory block was an array of floats).
+ * @return The float value at the given index.
+ */
+extern "C" float SysBufferGetFloat(void* buffer, int index)
+{
+	float* p = (float*) buffer;
+	return p[index];
+}
+
+/**
+ * Get an double value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to a double index (as if the
+ * memory block was an array of doubles).
+ * @return The double value at the given index.
+ */
+extern "C" double SysBufferGetDouble(void* buffer, int index)
+{
+	double* p = (double*) buffer;
+	return p[index];
+}
+
+/**
  * Copy bytes from one memory block to another. The number of bytes
  * given by numberOfBytesToCopy bytes, starting at sourceIndex in 
  * the source block, will be copied to the destination block, 
@@ -252,7 +278,8 @@ extern "C" void SysBufferCopyBytes(
 /**
  * Return a pointer to a byte at an index in a buffer.
  * This function is useful when calling functions that
- * write to memory using a pointer.
+ * write to memory using a pointer, or to read data
+ * from a particular place in a memory block.
  * @param buffer Pointer to  memory block.
  * @param index Offset to a byte index.
  * @return A pointer to the byte at the given index.
@@ -260,6 +287,33 @@ extern "C" void SysBufferCopyBytes(
 void* SysBufferGetBytePointer(void* buffer, int index)
 {
 	return ((char*) buffer) + index;
+}
+
+/**
+ * Get the size of an int in bytes.
+ * @return The size.
+ */
+extern "C" int SysSizeOfInt()
+{
+	return (int) sizeof(int);
+}
+
+/**
+ * Get the size of an int in bytes.
+ * @return The size.
+ */
+extern "C" int SysSizeOfFloat()
+{
+	return (int) sizeof(float);
+}
+
+/**
+ * Get the size of an int in bytes.
+ * @return The size.
+ */
+extern "C" int SysSizeOfDouble()
+{
+	return (int) sizeof(double);
 }
 
 extern "C" int SysBitAnd(int a, int b)
@@ -366,6 +420,57 @@ extern "C" void* SysEventGetData(MAEvent* event)
 {
 	return event->data;
 }
+
+extern "C" int SysEventSensorGetType(MAEvent* event)
+{
+	return event->sensor.type;
+}
+
+extern "C" float SysEventSensorGetValue1(MAEvent* event)
+{
+	return event->sensor.values[0];
+}
+
+extern "C" float SysEventSensorGetValue2(MAEvent* event)
+{
+	return event->sensor.values[1];
+}
+
+extern "C" float SysEventSensorGetValue3(MAEvent* event)
+{
+	return event->sensor.values[2];
+}
+
+extern "C" int SysEventLocationGetState(MAEvent* event)
+{
+	return ((MALocation*)(event->data))->state;
+}
+
+extern "C" double SysEventLocationGetLat(MAEvent* event)
+{
+	return ((MALocation*)(event->data))->lat;
+}
+
+extern "C" double SysEventLocationGetLon(MAEvent* event)
+{
+	return ((MALocation*)(event->data))->lon;
+}
+
+extern "C" double SysEventLocationGetHorzAcc(MAEvent* event)
+{
+	return ((MALocation*)(event->data))->horzAcc;
+}
+
+extern "C" double SysEventLocationGetVertAcc(MAEvent* event)
+{
+	return ((MALocation*)(event->data))->vertAcc;
+}
+
+extern "C" float SysEventLocationGetAlt(MAEvent* event)
+{
+	return ((MALocation*)(event->data))->alt;
+}
+
 
 extern "C" MAPoint2d* SysPointCreate()
 {

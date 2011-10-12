@@ -113,6 +113,24 @@ int SysBufferGetByte(void* buffer, int index);
 void SysBufferSetByte(void* buffer, int index, int value);
 
 /**
+ * Get an float value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to a float index (as if the
+ * memory block was an array of floats).
+ * @return The float value at the given index.
+ */
+float SysBufferGetFloat(void* buffer, int index);
+
+/**
+ * Get an double value in a memory block.
+ * @param buffer Pointer to memory block.
+ * @param index Offset to a double index (as if the
+ * memory block was an array of doubles).
+ * @return The double value at the given index.
+ */
+double SysBufferGetDouble(void* buffer, int index);
+
+/**
  * Copy bytes from one memory block to another. The number of bytes
  * given by numberOfBytesToCopy bytes, starting at sourceIndex in 
  * the source block, will be copied to the destination block, 
@@ -136,13 +154,32 @@ void SysBufferCopyBytes(void* sourceBuffer, int sourceIndex, void* destBuffer, i
  */
 void* SysBufferGetBytePointer(void* buffer, int index);
 
+/**
+ * Get the size of an int in bytes.
+ * @return The size.
+ */
+int SysSizeOfInt();
+
+/**
+ * Get the size of an int in bytes.
+ * @return The size.
+ */
+int SysSizeOfFloat();
+
+/**
+ * Get the size of an int in bytes.
+ * @return The size.
+ */
+int SysSizeOfDouble();
+
+// Bit manipulation functions.
 int SysBitAnd(int a, int b);
 int SysBitOr(int a, int b);
 int SysBitXor(int a, int b);
 int SysBitShiftLeft(int a, int bits);
 int SysBitShiftRight(int a, int bits);
 
-// MAEvent
+// MAEvent access functions that make it easier to access event data.
 MAEvent* SysEventCreate();
 int SysEventGetType(MAEvent* event);
 int SysEventGetKey(MAEvent* event);
@@ -158,6 +195,16 @@ int SysEventGetConnResult(MAEvent* event);
 int SysEventGetTextBoxResult(MAEvent* event);
 int SysEventGetTextBoxLength(MAEvent* event);
 void* SysEventGetData(MAEvent* event);
+int SysEventSensorGetType(MAEvent* event);
+float SysEventSensorGetValue1(MAEvent* event);
+float SysEventSensorGetValue2(MAEvent* event);
+float SysEventSensorGetValue3(MAEvent* event);
+int SysEventLocationGetState(MAEvent* event);
+double SysEventLocationGetLat(MAEvent* event);
+double SysEventLocationGetLon(MAEvent* event);
+double SysEventLocationGetHorzAcc(MAEvent* event);
+double SysEventLocationGetVertAcc(MAEvent* event);
+float SysEventLocationGetAlt(MAEvent* event);
 
 // MAPoint2d
 MAPoint2d* SysPointCreate();

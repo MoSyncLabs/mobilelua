@@ -1,6 +1,6 @@
 /*
 ** Lua binding: lua_maapi
-** Generated automatically by tolua 5.1.4 on Mon Oct  3 13:49:26 2011.
+** Generated automatically by tolua 5.1.4 on Wed Oct 12 16:37:50 2011.
 */
 
 #include "tolua.h"
@@ -7506,6 +7506,64 @@ static int tolua_lua_maapi_SysBufferSetByte00(lua_State* tolua_S)
 #endif
 }
 
+/* function: SysBufferGetFloat */
+static int tolua_lua_maapi_SysBufferGetFloat00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* buffer = ((void*)  tolua_touserdata(tolua_S,1,0));
+  int index = ((int)  tolua_tonumber(tolua_S,2,0));
+ {
+  float tolua_ret = (float)  SysBufferGetFloat(buffer,index);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysBufferGetFloat'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysBufferGetDouble */
+static int tolua_lua_maapi_SysBufferGetDouble00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* buffer = ((void*)  tolua_touserdata(tolua_S,1,0));
+  int index = ((int)  tolua_tonumber(tolua_S,2,0));
+ {
+  double tolua_ret = (double)  SysBufferGetDouble(buffer,index);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysBufferGetDouble'.",&tolua_err);
+ return 0;
+#endif
+}
+
 /* function: SysBufferCopyBytes */
 static int tolua_lua_maapi_SysBufferCopyBytes00(lua_State* tolua_S)
 {
@@ -7565,6 +7623,81 @@ static int tolua_lua_maapi_SysBufferGetBytePointer00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'SysBufferGetBytePointer'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysSizeOfInt */
+static int tolua_lua_maapi_SysSizeOfInt00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnoobj(tolua_S,1,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  int tolua_ret = (int)  SysSizeOfInt();
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysSizeOfInt'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysSizeOfFloat */
+static int tolua_lua_maapi_SysSizeOfFloat00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnoobj(tolua_S,1,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  int tolua_ret = (int)  SysSizeOfFloat();
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysSizeOfFloat'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysSizeOfDouble */
+static int tolua_lua_maapi_SysSizeOfDouble00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnoobj(tolua_S,1,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  int tolua_ret = (int)  SysSizeOfDouble();
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysSizeOfDouble'.",&tolua_err);
  return 0;
 #endif
 }
@@ -8113,6 +8246,276 @@ static int tolua_lua_maapi_SysEventGetData00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'SysEventGetData'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysEventSensorGetType */
+static int tolua_lua_maapi_SysEventSensorGetType00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* event = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  SysEventSensorGetType(event);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysEventSensorGetType'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysEventSensorGetValue1 */
+static int tolua_lua_maapi_SysEventSensorGetValue100(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* event = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  float tolua_ret = (float)  SysEventSensorGetValue1(event);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysEventSensorGetValue1'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysEventSensorGetValue2 */
+static int tolua_lua_maapi_SysEventSensorGetValue200(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* event = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  float tolua_ret = (float)  SysEventSensorGetValue2(event);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysEventSensorGetValue2'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysEventSensorGetValue3 */
+static int tolua_lua_maapi_SysEventSensorGetValue300(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* event = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  float tolua_ret = (float)  SysEventSensorGetValue3(event);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysEventSensorGetValue3'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysEventLocationGetState */
+static int tolua_lua_maapi_SysEventLocationGetState00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* event = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  SysEventLocationGetState(event);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysEventLocationGetState'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysEventLocationGetLat */
+static int tolua_lua_maapi_SysEventLocationGetLat00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* event = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  double tolua_ret = (double)  SysEventLocationGetLat(event);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysEventLocationGetLat'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysEventLocationGetLon */
+static int tolua_lua_maapi_SysEventLocationGetLon00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* event = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  double tolua_ret = (double)  SysEventLocationGetLon(event);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysEventLocationGetLon'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysEventLocationGetHorzAcc */
+static int tolua_lua_maapi_SysEventLocationGetHorzAcc00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* event = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  double tolua_ret = (double)  SysEventLocationGetHorzAcc(event);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysEventLocationGetHorzAcc'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysEventLocationGetVertAcc */
+static int tolua_lua_maapi_SysEventLocationGetVertAcc00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* event = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  double tolua_ret = (double)  SysEventLocationGetVertAcc(event);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysEventLocationGetVertAcc'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysEventLocationGetAlt */
+static int tolua_lua_maapi_SysEventLocationGetAlt00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* event = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  float tolua_ret = (float)  SysEventLocationGetAlt(event);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysEventLocationGetAlt'.",&tolua_err);
  return 0;
 #endif
 }
@@ -9462,8 +9865,13 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_function(tolua_S,"SysBufferSetInt",tolua_lua_maapi_SysBufferSetInt00);
  tolua_function(tolua_S,"SysBufferGetByte",tolua_lua_maapi_SysBufferGetByte00);
  tolua_function(tolua_S,"SysBufferSetByte",tolua_lua_maapi_SysBufferSetByte00);
+ tolua_function(tolua_S,"SysBufferGetFloat",tolua_lua_maapi_SysBufferGetFloat00);
+ tolua_function(tolua_S,"SysBufferGetDouble",tolua_lua_maapi_SysBufferGetDouble00);
  tolua_function(tolua_S,"SysBufferCopyBytes",tolua_lua_maapi_SysBufferCopyBytes00);
  tolua_function(tolua_S,"SysBufferGetBytePointer",tolua_lua_maapi_SysBufferGetBytePointer00);
+ tolua_function(tolua_S,"SysSizeOfInt",tolua_lua_maapi_SysSizeOfInt00);
+ tolua_function(tolua_S,"SysSizeOfFloat",tolua_lua_maapi_SysSizeOfFloat00);
+ tolua_function(tolua_S,"SysSizeOfDouble",tolua_lua_maapi_SysSizeOfDouble00);
  tolua_function(tolua_S,"SysBitAnd",tolua_lua_maapi_SysBitAnd00);
  tolua_function(tolua_S,"SysBitOr",tolua_lua_maapi_SysBitOr00);
  tolua_function(tolua_S,"SysBitXor",tolua_lua_maapi_SysBitXor00);
@@ -9484,6 +9892,16 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_function(tolua_S,"SysEventGetTextBoxResult",tolua_lua_maapi_SysEventGetTextBoxResult00);
  tolua_function(tolua_S,"SysEventGetTextBoxLength",tolua_lua_maapi_SysEventGetTextBoxLength00);
  tolua_function(tolua_S,"SysEventGetData",tolua_lua_maapi_SysEventGetData00);
+ tolua_function(tolua_S,"SysEventSensorGetType",tolua_lua_maapi_SysEventSensorGetType00);
+ tolua_function(tolua_S,"SysEventSensorGetValue1",tolua_lua_maapi_SysEventSensorGetValue100);
+ tolua_function(tolua_S,"SysEventSensorGetValue2",tolua_lua_maapi_SysEventSensorGetValue200);
+ tolua_function(tolua_S,"SysEventSensorGetValue3",tolua_lua_maapi_SysEventSensorGetValue300);
+ tolua_function(tolua_S,"SysEventLocationGetState",tolua_lua_maapi_SysEventLocationGetState00);
+ tolua_function(tolua_S,"SysEventLocationGetLat",tolua_lua_maapi_SysEventLocationGetLat00);
+ tolua_function(tolua_S,"SysEventLocationGetLon",tolua_lua_maapi_SysEventLocationGetLon00);
+ tolua_function(tolua_S,"SysEventLocationGetHorzAcc",tolua_lua_maapi_SysEventLocationGetHorzAcc00);
+ tolua_function(tolua_S,"SysEventLocationGetVertAcc",tolua_lua_maapi_SysEventLocationGetVertAcc00);
+ tolua_function(tolua_S,"SysEventLocationGetAlt",tolua_lua_maapi_SysEventLocationGetAlt00);
  tolua_function(tolua_S,"SysPointCreate",tolua_lua_maapi_SysPointCreate00);
  tolua_function(tolua_S,"SysPointGetX",tolua_lua_maapi_SysPointGetX00);
  tolua_function(tolua_S,"SysPointGetY",tolua_lua_maapi_SysPointGetY00);

@@ -27,6 +27,7 @@ Date: 2011-10-12
 
 Demo of the accelerometer sensor.
 Move the device to change color or the screen.
+The result is not that pretty, the app can be improved!
 
 Tested on Android.
 ]]

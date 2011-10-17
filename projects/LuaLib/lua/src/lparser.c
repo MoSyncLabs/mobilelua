@@ -1543,6 +1543,7 @@ static void retstat (LexState *ls) {
 
 
 static int statement (LexState *ls) {
+  LUAI_ERRORCHECK(0)
   int line = ls->linenumber;  /* may be needed for error messages */
   switch (ls->t.token) {
     case TK_IF: {  /* stat -> ifstat */

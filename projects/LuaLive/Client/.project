@@ -3,6 +3,7 @@
 	<name>LuaLiveClient</name>
 	<comment></comment>
 	<projects>
+		<project>LuaLib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

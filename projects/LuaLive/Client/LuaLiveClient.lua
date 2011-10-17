@@ -70,8 +70,8 @@ local COMMAND_REPLY = 3
 -- Server address and port.
 -- TODO: Change the server address to the one used on your machine.
 -- When running in the Android emulator, use 10.0.2.2 for localhost.
---local SERVER_DEFAULT_ADDRESS = "192.168.0.125"
-local SERVER_DEFAULT_ADDRESS = "10.0.2.2"
+local SERVER_DEFAULT_ADDRESS = "192.168.0.114"
+--local SERVER_DEFAULT_ADDRESS = "10.0.2.2"
 local SERVER_PORT = ":55555"
 
 -- The connection object
@@ -132,25 +132,26 @@ function MessageHeaderReceived(buffer, result)
 end
 
 function ScriptReceived(buffer, result)
+  local fun
+  local resultOrErrorMessage
+  local success = false
   -- Process the result.
   log("ScriptReceived")
   if result > 0 then
     -- Convert buffer to string.
     local script = SysBufferToString(buffer)
-    -- Evaluate script.
-    local fun = loadstring(script)
-    local result, value = pcall(fun)
-    if result then
-      log("Success evaluating script.")
-      if nil ~= value then
-        log("Return value: " .. value)
+    -- Parse script.
+    fun, resultOrErrorMessage = loadstring(script)
+    if nil ~= fun then
+      -- Parsing succeeded, evaluate script.
+      success, resultOrErrorMessage = pcall(fun)
+      if not success then
+        resultOrErrorMessage = "Error: " .. resultOrErrorMessage
+        log("Failed to evaluate script. " .. resultOrErrorMessage)
       end
-    else
-      value = "Error: " .. value
-      log("Failed evaluating script. " .. value)
     end
     -- Write response.
-    WriteResponse(value)
+    WriteResponse(resultOrErrorMessage)
   end
   -- Free the result buffer.
   if nil ~= buffer then

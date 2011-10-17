@@ -266,6 +266,7 @@ static void read_long_string (LexState *ls, SemInfo *seminfo, int sep) {
       case EOZ:
         luaX_lexerror(ls, (seminfo) ? "unfinished long string" :
                                    "unfinished long comment", TK_EOS);
+        LUAI_ERRORCHECK()
         break;  /* to avoid warnings */
 #if defined(LUA_COMPAT_LSTR)
       case '[': {
@@ -277,6 +278,7 @@ static void read_long_string (LexState *ls, SemInfo *seminfo, int sep) {
 #if LUA_COMPAT_LSTR == 1
           if (sep == 0)
             luaX_lexerror(ls, "nesting of [[...]] is deprecated", '[');
+          LUAI_ERRORCHECK()
 #endif
         }
         break;

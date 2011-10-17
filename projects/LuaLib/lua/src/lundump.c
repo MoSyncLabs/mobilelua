@@ -124,6 +124,7 @@ static void LoadConstants(LoadState* S, Proto* f)
 	break;
    default:
 	error(S,"bad constant");
+	LUAI_ERRORCHECK()
 	break;
   }
  }
@@ -162,19 +163,32 @@ static Proto* LoadFunction(LoadState* S, TString* p)
 {
  Proto* f;
  if (++S->L->nCcalls > LUAI_MAXCCALLS) error(S,"code too deep");
+ LUAI_ERRORCHECK(NULL)
  f=luaF_newproto(S->L);
+ LUAI_ERRORCHECK(NULL)
  setptvalue2s(S->L,S->L->top,f); incr_top(S->L);
  f->source=LoadString(S); if (f->source==NULL) f->source=p;
+ LUAI_ERRORCHECK(NULL)
  f->linedefined=LoadInt(S);
+ LUAI_ERRORCHECK(NULL)
  f->lastlinedefined=LoadInt(S);
+ LUAI_ERRORCHECK(NULL)
  f->nups=LoadByte(S);
+ LUAI_ERRORCHECK(NULL)
  f->numparams=LoadByte(S);
+ LUAI_ERRORCHECK(NULL)
  f->is_vararg=LoadByte(S);
+ LUAI_ERRORCHECK(NULL)
  f->maxstacksize=LoadByte(S);
+ LUAI_ERRORCHECK(NULL)
  LoadCode(S,f);
+ LUAI_ERRORCHECK(NULL)
  LoadConstants(S,f);
+ LUAI_ERRORCHECK(NULL)
  LoadDebug(S,f);
+ LUAI_ERRORCHECK(NULL)
  IF (!luaG_checkcode(f), "bad code");
+ LUAI_ERRORCHECK(NULL)
  S->L->top--;
  S->L->nCcalls--;
  return f;
@@ -186,6 +200,7 @@ static void LoadHeader(LoadState* S)
  char s[LUAC_HEADERSIZE];
  luaU_header(h);
  LoadBlock(S,s,LUAC_HEADERSIZE);
+ LUAI_ERRORCHECK()
  IF (memcmp(h,s,LUAC_HEADERSIZE)!=0, "bad header");
 }
 
@@ -205,6 +220,7 @@ Proto* luaU_undump (lua_State* L, ZIO* Z, Mbuffer* buff, const char* name)
  S.Z=Z;
  S.b=buff;
  LoadHeader(&S);
+ LUAI_ERRORCHECK(NULL)
  return LoadFunction(&S,luaS_newliteral(L,"=?"));
 }
 

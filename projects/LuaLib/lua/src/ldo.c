@@ -108,11 +108,13 @@ static void resetstack (lua_State *L, int status) {
 
 void luaD_throw (lua_State *L, int errcode) {
   if (L->errorJmp) {
-	//lprintfln("luaD_throw errcode: %i\n", errcode);
+	lprintfln("luaD_throw errcode: %i\n", errcode);
+	//maPanic(0, "trhow");
     L->errorJmp->status = errcode;
     LUAI_THROW(L, L->errorJmp);
   }
   else {
+	lprintfln("luaD_throw exit errcode: %i\n", errcode);
     L->status = cast_byte(errcode);
     if (G(L)->panic) {
       resetstack(L, errcode);
@@ -318,6 +320,7 @@ int luaD_precall (lua_State *L, StkId func, int nresults) {
     if (L->hookmask & LUA_MASKCALL) {
       L->savedpc++;  /* hooks assume 'pc' is already incremented */
       luaD_callhook(L, LUA_HOOKCALL, -1);
+      LUAI_ERRORCHECK(-1)
       L->savedpc--;  /* correct 'pc' */
     }
     return PCRLUA;
@@ -334,6 +337,7 @@ int luaD_precall (lua_State *L, StkId func, int nresults) {
     ci->nresults = nresults;
     if (L->hookmask & LUA_MASKCALL)
       luaD_callhook(L, LUA_HOOKCALL, -1);
+    LUAI_ERRORCHECK(-1)
     lua_unlock(L);
     n = (*curr_func(L)->c.f)(L);  /* do the actual call */
     LUAI_ERRORCHECK(-1)
@@ -394,8 +398,10 @@ void luaD_call (lua_State *L, StkId func, int nResults) {
       luaD_throw(L, LUA_ERRERR);  /* error while handing stack error */
     LUAI_ERRORCHECK()
   }
-  if (luaD_precall(L, func, nResults) == PCRLUA)  /* is a Lua function? */
+  if (luaD_precall(L, func, nResults) == PCRLUA) { /* is a Lua function? */
+    LUAI_ERRORCHECK()
     luaV_execute(L, 1);  /* call it */
+  }
   LUAI_ERRORCHECK()
   L->nCcalls--;
   luaC_checkGC(L);
@@ -409,6 +415,7 @@ static void resume (lua_State *L, void *ud) {
     lua_assert(ci == L->base_ci && firstArg > L->base);
     if (luaD_precall(L, firstArg - 1, LUA_MULTRET) != PCRLUA)
       return;
+    LUAI_ERRORCHECK()
   }
   else {  /* resuming from previous yield */
     lua_assert(L->status == LUA_YIELD);
@@ -423,11 +430,13 @@ static void resume (lua_State *L, void *ud) {
     else  /* yielded inside a hook: just continue its execution */
       L->base = L->ci->base;
   }
+  LUAI_ERRORCHECK()
   luaV_execute(L, cast_int(L->ci - L->base_ci));
 }
 
 
 static int resume_error (lua_State *L, const char *msg) {
+  LUAI_ERRORCHECK(0)
   L->top = L->ci->base;
   setsvalue2s(L, L->top, luaS_new(L, msg));
   incr_top(L);
@@ -437,6 +446,7 @@ static int resume_error (lua_State *L, const char *msg) {
 
 
 LUA_API int lua_resume (lua_State *L, int nargs) {
+  LUAI_ERRORCHECK(0)
   int status;
   lua_lock(L);
   if (L->status != LUA_YIELD && (L->status != 0 || L->ci != L->base_ci))
@@ -444,12 +454,15 @@ LUA_API int lua_resume (lua_State *L, int nargs) {
   if (L->nCcalls >= LUAI_MAXCCALLS)
     return resume_error(L, "C stack overflow");
   luai_userstateresume(L, nargs);
+  LUAI_ERRORCHECK(0)
   lua_assert(L->errfunc == 0);
   L->baseCcalls = ++L->nCcalls;
   status = luaD_rawrunprotected(L, resume, L->top - nargs);
+  LUAI_ERRORCHECK(0)
   if (status != 0) {  /* error? */
     L->status = cast_byte(status);  /* mark thread as `dead' */
     luaD_seterrorobj(L, status, L->top);
+    LUAI_ERRORCHECK(0)
     L->ci->top = L->top;
   }
   else {

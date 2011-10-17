@@ -627,14 +627,22 @@ extern int global_LuaErrorState;
 //#define LUAI_THROW(L,c) maPanic(-1, "Lua Error")
 //#define LUAI_THROW(L,c) global_LuaErrorState = L->errorJmp->status; \
 //	lprintfln("Top of stack in LUAI_THROW: %s\n", lua_tostring(L, -1))
-#define LUAI_THROW(L,c) global_LuaErrorState = L->errorJmp->status;
-#define LUAI_TRY(L,c,a) global_LuaErrorState = 0; if (1) { a }
+#define LUAI_THROW(L,c) if (1) { global_LuaErrorState = L->errorJmp->status; \
+	lprintfln("LUAI_THROW errorState: %d", global_LuaErrorState); \
+	/*maPanic(0, "luaD_throw");*/ }
+#define LUAI_TRY(L,c,a) if (1) { \
+	lprintfln("LUAI_TRY errorState: %d", global_LuaErrorState); \
+	global_LuaErrorState = 0; \
+	if (1) { a } \
+	global_LuaErrorState = 0; }
 #define luai_jmpbuf	jmp_buf
 //#define LUAI_ERRORCHECK(returnValue) if (1) { \
 //	lprintfln("global_LuaErrorState: %i\n", global_LuaErrorState); \
 //	if (0 != global_LuaErrorState) { return returnValue; } }
 #define LUAI_ERRORCHECK(returnValue) \
-	if (0 != global_LuaErrorState) { return returnValue; }
+	if (0 != global_LuaErrorState) { \
+		lprintfln("LUAI_ERRORCHECK: %s:%d ", __FILE__, __LINE__); \
+		return returnValue; }
 
 #else
 /* default handling with long jumps */

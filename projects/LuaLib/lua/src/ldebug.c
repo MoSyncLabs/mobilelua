@@ -655,6 +655,7 @@ void luaG_errormsg (lua_State *L) {
 
 
 void luaG_runerror (lua_State *L, const char *fmt, ...) {
+  LUAI_ERRORCHECK()
   va_list argp;
   va_start(argp, fmt);
   addinfo(L, luaO_pushvfstring(L, fmt, argp));

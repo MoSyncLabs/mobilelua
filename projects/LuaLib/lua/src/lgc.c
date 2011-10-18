@@ -465,6 +465,7 @@ static void GCTM (lua_State *L) {
     setuvalue(L, L->top+1, udata);
     L->top += 2;
     luaD_call(L, L->top - 2, 0);
+    LUAI_ERRORCHECK()
     L->allowhook = oldah;  /* restore hooks */
     g->GCthreshold = oldt;  /* restore threshold */
   }

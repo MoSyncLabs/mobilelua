@@ -623,6 +623,7 @@ static void add_value (MatchState *ms, luaL_Buffer *b, const char *s,
       lua_pushvalue(L, 3);
       n = push_captures(ms, s, e);
       lua_call(L, n, 1);
+      LUAI_ERRORCHECK()
       break;
     }
     case LUA_TTABLE: {

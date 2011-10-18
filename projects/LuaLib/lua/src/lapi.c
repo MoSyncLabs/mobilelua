@@ -780,6 +780,7 @@ LUA_API void lua_call (lua_State *L, int nargs, int nresults) {
   checkresults(L, nargs, nresults);
   func = L->top - (nargs+1);
   luaD_call(L, func, nresults);
+  LUAI_ERRORCHECK()
   adjustresults(L, nresults);
   lua_unlock(L);
 }

@@ -471,6 +471,7 @@ static int ll_require (lua_State *L) {
                     name, lua_tostring(L, -2));
     lua_pushstring(L, name);
     lua_call(L, 1, 1);  /* call it */
+    LUAI_ERRORCHECK(0)
     if (lua_isfunction(L, -1))  /* did it find module? */
       break;  /* module loaded successfully */
     else if (lua_isstring(L, -1))  /* loader returned error message? */
@@ -482,6 +483,7 @@ static int ll_require (lua_State *L) {
   lua_setfield(L, 2, name);  /* _LOADED[name] = sentinel */
   lua_pushstring(L, name);  /* pass name as argument to module */
   lua_call(L, 1, 1);  /* run loaded module */
+  LUAI_ERRORCHECK(0)
   if (!lua_isnil(L, -1))  /* non-nil return? */
     lua_setfield(L, 2, name);  /* _LOADED[name] = returned value */
   lua_getfield(L, 2, name);
@@ -522,6 +524,7 @@ static void dooptions (lua_State *L, int n) {
     lua_pushvalue(L, i);  /* get option (a function) */
     lua_pushvalue(L, -2);  /* module */
     lua_call(L, 1, 0);
+    LUAI_ERRORCHECK()
   }
 }
 

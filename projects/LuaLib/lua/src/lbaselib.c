@@ -33,6 +33,7 @@ static int luaB_print (lua_State *L) {
     lua_pushvalue(L, -1);  /* function to be called */
     lua_pushvalue(L, i);   /* value to print */
     lua_call(L, 1, 1);
+    LUAI_ERRORCHECK(0)
     s = lua_tostring(L, -1);  /* get result */
     if (s == NULL)
       return luaL_error(L, LUA_QL("tostring") " must return a string to "
@@ -321,8 +322,11 @@ static int luaB_loadfile (lua_State *L) {
 static const char *generic_reader (lua_State *L, void *ud, size_t *size) {
   (void)ud;  /* to avoid warnings */
   luaL_checkstack(L, 2, "too many nested functions");
+  LUAI_ERRORCHECK()
   lua_pushvalue(L, 1);  /* get function */
+  LUAI_ERRORCHECK()
   lua_call(L, 0, 1);  /* call it */
+  LUAI_ERRORCHECK()
   if (lua_isnil(L, -1)) {
     *size = 0;
     return NULL;
@@ -351,6 +355,7 @@ static int luaB_dofile (lua_State *L) {
   int n = lua_gettop(L);
   if (luaL_loadfile(L, fname) != 0) lua_error(L);
   lua_call(L, 0, LUA_MULTRET);
+  LUAI_ERRORCHECK(0)
   return lua_gettop(L) - n;
 }
 

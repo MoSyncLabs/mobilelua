@@ -28,6 +28,7 @@ static int foreachi (lua_State *L) {
     lua_pushinteger(L, i);  /* 1st argument */
     lua_rawgeti(L, 1, i);  /* 2nd argument */
     lua_call(L, 2, 1);
+    LUAI_ERRORCHECK(0)
     if (!lua_isnil(L, -1))
       return 1;
     lua_pop(L, 1);  /* remove nil result */
@@ -182,6 +183,7 @@ static int sort_comp (lua_State *L, int a, int b) {
     lua_pushvalue(L, a-1);  /* -1 to compensate function */
     lua_pushvalue(L, b-2);  /* -2 to compensate function and `a' */
     lua_call(L, 2, 1);
+    LUAI_ERRORCHECK(0)
     res = lua_toboolean(L, -1);
     lua_pop(L, 1);
     return res;

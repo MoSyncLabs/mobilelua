@@ -97,72 +97,74 @@ EventMonitor = (function ()
     -- Create a MoSync event object.
     local event = SysEventCreate()
 
-	-- Set isRunning flag to true.
-	isRunning = true
-	
+    -- Set isRunning flag to true.
+    isRunning = true
+    
     -- This is the event loop.
     while isRunning do
-      maWait(0)
-      maGetEvent(event)
-      local eventType = SysEventGetType(event)
-      if EVENT_TYPE_CLOSE == eventType then
-        break -- Exit while loop.
-      elseif EVENT_TYPE_KEY_PRESSED == eventType then
-        if nil ~= keyDownFun then
-          keyDownFun(SysEventGetKey(event))
+      maWait(1000)
+      while 0 ~= maGetEvent(event) do
+        local eventType = SysEventGetType(event)
+        if EVENT_TYPE_CLOSE == eventType then
+          break -- Exit while loop.
+        elseif EVENT_TYPE_KEY_PRESSED == eventType then
+          if nil ~= keyDownFun then
+            keyDownFun(SysEventGetKey(event))
+          end
+        elseif EVENT_TYPE_KEY_RELEASED == eventType then
+          if nil ~= keyUpFun then
+            keyUpFun(SysEventGetKey(event))
+          end
+        elseif EVENT_TYPE_POINTER_PRESSED == eventType then
+          if nil ~= touchDownFun then
+            touchDownFun(
+              SysEventGetX(event),
+              SysEventGetY(event),
+              SysEventGetTouchId(event))
+          end
+        elseif EVENT_TYPE_POINTER_RELEASED == eventType then
+          if nil ~= touchUpFun then
+            touchUpFun(
+              SysEventGetX(event),
+              SysEventGetY(event),
+              SysEventGetTouchId(event))
+          end
+        elseif EVENT_TYPE_POINTER_DRAGGED == eventType then
+          if nil ~= touchDragFun then
+            touchDragFun(
+              SysEventGetX(event),
+              SysEventGetY(event),
+              SysEventGetTouchId(event))
+          end
+        elseif EVENT_TYPE_CONN == eventType then
+          local connectionFun = connectionFuns[SysEventGetConnHandle(event)]
+          if nil ~= connectionFun then
+            connectionFun(
+              SysEventGetConnHandle(event),
+              SysEventGetConnOpType(event),
+              SysEventGetConnResult(event))
+          end
+        elseif EVENT_TYPE_SENSOR == eventType then
+          if nil ~= sensorFun then
+            sensorFun(
+              SysEventSensorGetType(event),
+              SysEventSensorGetValue1(event),
+              SysEventSensorGetValue2(event),
+              SysEventSensorGetValue3(event))
+          end
+        else
+          -- Handle other events in the default function.
+          if nil ~= defaultFun then
+            defaultFun(event)
+          end
+        end -- End of ifs
+
+        -- Always pass the event to the any function.
+        if nil ~= anyFun then
+          anyFun(event, result)
         end
-      elseif EVENT_TYPE_KEY_RELEASED == eventType then
-        if nil ~= keyUpFun then
-          keyUpFun(SysEventGetKey(event))
-        end
-      elseif EVENT_TYPE_POINTER_PRESSED == eventType then
-        if nil ~= touchDownFun then
-          touchDownFun(
-            SysEventGetX(event),
-            SysEventGetY(event),
-            SysEventGetTouchId(event))
-        end
-      elseif EVENT_TYPE_POINTER_RELEASED == eventType then
-        if nil ~= touchUpFun then
-          touchUpFun(
-            SysEventGetX(event),
-            SysEventGetY(event),
-            SysEventGetTouchId(event))
-        end
-      elseif EVENT_TYPE_POINTER_DRAGGED == eventType then
-        if nil ~= touchDragFun then
-          touchDragFun(
-            SysEventGetX(event),
-            SysEventGetY(event),
-            SysEventGetTouchId(event))
-        end
-      elseif EVENT_TYPE_CONN == eventType then
-        local connectionFun = connectionFuns[SysEventGetConnHandle(event)]
-        if nil ~= connectionFun then
-          connectionFun(
-            SysEventGetConnHandle(event),
-            SysEventGetConnOpType(event),
-            SysEventGetConnResult(event))
-        end
-      elseif EVENT_TYPE_SENSOR == eventType then
-        if nil ~= sensorFun then
-          sensorFun(
-            SysEventSensorGetType(event),
-            SysEventSensorGetValue1(event),
-            SysEventSensorGetValue2(event),
-            SysEventSensorGetValue3(event))
-        end
-      else
-	    -- Handle other events in the default function.
-        if nil ~= defaultFun then
-          defaultFun(event)
-        end
-      end -- End of ifs
-	  -- Always pass the event to the any function.
-      if nil ~= anyFun then
-        anyFun(event, result)
-      end
-    end -- End of event loop
+      end -- End of inner event loop
+    end -- End of outer event loop
 
     -- Free the event object.
     SysFree(event)

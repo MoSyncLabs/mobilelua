@@ -3,13 +3,14 @@
 <build.cfg id="Debug" types="Debug"/>
 <build.cfg id="Release" types="Release"/>
 <properties>
-<property key="build.prefs:additional.include.paths/Debug" value="%project:LuaLib%/inc/"/>
-<property key="build.prefs:additional.include.paths/Release" value="%project:LuaLib%/inc/"/>
+<property key="build.prefs:additional.include.paths/Debug" value="%project:LuaLib%/inc"/>
+<property key="build.prefs:additional.include.paths/Release" value="%project:LuaLib%/inc"/>
 <property key="build.prefs:additional.libraries" value="MAUtil.lib"/>
 <property key="build.prefs:additional.libraries/Debug" value="MAUtilD.lib, MAUID.lib, MAFSD.lib, LuaLib.lib"/>
 <property key="build.prefs:additional.libraries/Release" value="MAUtil.lib, MAUI.lib, MAFS.lib, LuaLib.lib"/>
 <property key="build.prefs:additional.library.paths/Debug" value="%project:LuaLib%/Output/Debug"/>
 <property key="build.prefs:additional.library.paths/Release" value="%project:LuaLib%/Output/Release"/>
+<property key="build.prefs:app.permissions" value="Camera File\ Storage Internet\ Access Location Location/Coarse Location/Fine Vibrate"/>
 <property key="build.prefs:extra.link.sw/Debug" value=""/>
 <property key="build.prefs:extra.link.sw/Release" value=""/>
 <property key="build.prefs:extra.res.sw/Debug" value=""/>

@@ -47,6 +47,10 @@ EventMonitor = (function ()
   local anyFun = nil
   local connectionFuns = {}
   local isRunning = false
+  
+  -- The time to wait in maWait. Can be changed by the
+  -- application by setting EventMonitor.WaitTime = <value>
+  self.WaitTime = 0
 
   self.OnTouchDown = function(self, fun)
     touchDownFun = fun
@@ -102,7 +106,7 @@ EventMonitor = (function ()
     
     -- This is the event loop.
     while isRunning do
-      maWait(1000)
+      maWait(self.WaitTime)
       while 0 ~= maGetEvent(event) do
         local eventType = SysEventGetType(event)
         if EVENT_TYPE_CLOSE == eventType then
@@ -208,3 +212,128 @@ Screen = (function()
 
 end)()
 
+
+-- Create a basic connection object.
+function SysConnectionCreate()
+  -- Table holding the object's methods.
+  local self = {}
+
+  -- MoSync connection handle.
+  local mConnectionHandle
+
+  -- Callback functions.
+  local mConnectedFun
+  local mReadDoneFun
+  local mWriteDoneFun
+
+  -- Input buffer and read status.
+  local mInBuffer
+  local mNumberOfBytesToRead
+  local mNumberOfBytesRead
+
+  -- Output buffer.
+  local mOutBuffer
+  
+  -- Is the connection open flag.
+  local mOpen = false
+
+  -- Private connection listener callback function. Used internally by
+  -- the connection object. Do not call this function in your code.
+  self.__ConnectionListener__ = function(connection, opType, result)
+    if CONNOP_CONNECT == opType then
+      -- First we get an event that confirms that the connection is created.
+      log("CONNOP_CONNECT result: " .. result)
+      mConnectedFun(result)
+    elseif CONNOP_READ == opType then
+      -- This is a confirm of a read or write operation.
+      log("CONNOP_READ result: " .. result)
+      if result > 0 then
+        -- Update byte counters.
+        mNumberOfBytesRead = mNumberOfBytesRead + result
+        mNumberOfBytesToRead = mNumberOfBytesToRead - result
+        if mNumberOfBytesToRead > 0 then
+          -- There is more data to read, continue reading bytes
+          -- into the input buffer.
+          local pointer = SysBufferGetBytePointer(
+            mInBuffer, 
+            mNumberOfBytesRead)
+          maConnRead(mConnectionHandle, pointer, mNumberOfBytesToRead)
+        else
+          -- Done reading, zero terminate buffer and call callback function.
+          SysBufferSetByte(mInBuffer, mNumberOfBytesRead, 0)
+          mReadDoneFun(mInBuffer, result)
+        end
+      else
+        -- There was an error, free input buffer and report it.
+        SysFree(mInBuffer)
+        mReadDoneFun(nil, result)
+      end
+    elseif CONNOP_WRITE == opType then
+      log("CONNOP_WRITE result: " .. result)
+      mWriteDoneFun(mOutBuffer, result)
+    end
+  end
+  
+  -- Public protocol.
+
+  -- Connect to an address.
+  self.Connect = function(self, connectString, connectedFun)
+    -- The connection must not be open.
+    if mOpen then return false end
+    mOpen = true
+    mConnectionHandle = maConnect(connectString)
+    mConnectedFun = connectedFun
+    log("maConnect result: " .. mConnectionHandle)
+    if mConnectionHandle > 0 then
+      EventMonitor:SetConnectionFun(
+        mConnectionHandle, 
+        self.__ConnectionListener__)
+      return true
+    else
+      -- Error
+      mConnectedFun(-1)
+      return false
+    end
+  end
+
+  -- Close a connection.
+  self.Close = function(self)
+    -- The connection must be open.
+    if not mOpen then return false end
+    mOpen = false
+    EventMonitor:RemoveConnectionFun(mConnectionHandle)
+    maConnClose(mConnectionHandle)
+    return true
+  end
+
+  -- Kicks off reading to a byte buffer. The connection
+  -- listener function handles the read result.
+  self.Read = function(self, numberOfBytes, readDoneFun)
+    -- The connection must be open.
+    if not mOpen then return false end
+    mNumberOfBytesToRead = numberOfBytes
+    mNumberOfBytesRead = 0
+    mReadDoneFun = readDoneFun
+    -- Allocate input buffer. This will be handed to the readDoneFun
+    -- on success. That function is responsible for deallocating it.
+    -- We add one byte for a zero termination character.
+    mInBuffer = SysAlloc(mNumberOfBytesToRead + 1)
+    -- Start reading bytes into the input buffer.
+    maConnRead(mConnectionHandle, mInBuffer, mNumberOfBytesToRead)
+    return true
+  end
+
+  -- Kicks off writing from a byte buffer. The connection
+  -- listener function handles the write result.
+  self.Write = function(self, buffer, numberOfBytesToWrite, writeDoneFun)
+    -- The connection must be open.
+    if not mOpen then return false end
+    mOutBuffer = buffer
+    mWriteDoneFun = writeDoneFun
+    -- Start writing bytes.
+    maConnWrite(mConnectionHandle, buffer, numberOfBytesToWrite)
+    return true
+  end
+
+  return self
+end

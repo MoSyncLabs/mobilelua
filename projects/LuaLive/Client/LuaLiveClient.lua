@@ -24,19 +24,16 @@
 
   File: LuaLiveClient.lua
   Author: Mikael Kindborg
-  Date: 2011-09-27
+  Date Created: 2011-09-27
 
   LuaLive Client written in Lua.
 
-  Still debugging the code...
-
-  Use with the LuaLiveEditor found at mobilelua.org.
+  Use with the LuaLiveEditor found at https://github.com/divineprog/mobilelua
 
   Enter the ip address of the editor below in the
   variable SERVER_DEFAULT_ADDRESS.
 
-
-  Protocol specification
+  Protocol specification:
 
   The first 4 bytes of a message is a command integer.
   The next 4 bytes is an integer with the size of the rest
@@ -48,6 +45,7 @@
   If there is no data, the size should be zero.
 
   Thus we have:
+  
     command - 4 byte integer
     data size - 4 byte integer, is 0 if there is no data
     optional data
@@ -70,8 +68,8 @@ local COMMAND_REPLY = 3
 -- Server address and port.
 -- TODO: Change the server address to the one used on your machine.
 -- When running in the Android emulator, use 10.0.2.2 for localhost.
-local SERVER_DEFAULT_ADDRESS = "192.168.0.114"
---local SERVER_DEFAULT_ADDRESS = "10.0.2.2"
+--local SERVER_DEFAULT_ADDRESS = "192.168.0.114"
+local SERVER_DEFAULT_ADDRESS = "10.0.2.2"
 local SERVER_PORT = ":55555"
 
 -- The connection object
@@ -178,101 +176,6 @@ function WriteResponseDone(buffer, result)
   log("Response written - result: " .. result)
   if nil ~= buffer then SysFree(buffer) end
   ReadCommand()
-end
-
--- Create a low level type of connection object.
-function SysConnectionCreate()
-  local self = {}
-
-  local mConnectionHandle
-
-  local mConnectedFun
-  local mReadDoneFun
-  local mWriteDoneFun
-
-  local mInBuffer
-  local mNumberOfBytesToRead
-  local mNumberOfBytesRead
-
-  local mOutBuffer
-
-  -- Connection listener function.
-  self.ConnectionListener = function(connection, opType, result)
-    if CONNOP_CONNECT == opType then
-      -- First we get an event that confirms that the connection is created.
-      log("CONNOP_CONNECT result: " .. result)
-      mConnectedFun(result)
-    elseif CONNOP_READ == opType then
-      -- This is a confirm of a read or write operation.
-      log("CONNOP_READ result: " .. result)
-      if result > 0 then
-        -- Update byte counters.
-        mNumberOfBytesRead = mNumberOfBytesRead + result
-        mNumberOfBytesToRead = mNumberOfBytesToRead - result
-        if mNumberOfBytesToRead > 0 then
-          -- There is more data to read, continue reading bytes
-          -- into the input buffer.
-          local pointer = SysBufferGetBytePointer(mInBuffer, mNumberOfBytesRead)
-          maConnRead(mConnectionHandle, pointer, mNumberOfBytesToRead)
-        else
-          -- Done reading, zero terminate buffer and call callback function.
-          SysBufferSetByte(mInBuffer, mNumberOfBytesRead, 0)
-          mReadDoneFun(mInBuffer, result)
-        end
-      else
-        -- There was an error, free input buffer and report it.
-        SysFree(mInBuffer)
-        mReadDoneFun(nil, result)
-      end
-    elseif CONNOP_WRITE == opType then
-      log("CONNOP_WRITE result: " .. result)
-      mWriteDoneFun(mOutBuffer, result)
-    end
-  end
-
-  -- Connect to an address.
-  self.Connect = function(self, connectString, connectedFun)
-    mConnectionHandle = maConnect(connectString)
-    mConnectedFun = connectedFun
-    log("maConnect result: " .. mConnectionHandle)
-    if mConnectionHandle > 0 then
-      EventMonitor:SetConnectionFun(mConnectionHandle, self.ConnectionListener)
-    else
-      -- Error
-      mConnectedFun(-1)
-    end
-  end
-
-  -- Close a connection.
-  self.Close = function()
-    EventMonitor:RemoveConnectionFun(mConnectionHandle)
-    maConnClose(mConnectionHandle)
-  end
-
-  -- Kicks off reading to a byte buffer. The connection
-  -- listener function handles the read result.
-  self.Read = function(self, numberOfBytes, readDoneFun)
-    mNumberOfBytesToRead = numberOfBytes
-    mNumberOfBytesRead = 0
-    mReadDoneFun = readDoneFun
-    -- Allocate input buffer. This will be handed to the readDoneFun
-    -- on success. That function is responsible for deallocating it.
-    -- We add one byte for a zero termination character.
-    mInBuffer = SysAlloc(mNumberOfBytesToRead + 1)
-    -- Start reading bytes into the input buffer.
-    maConnRead(mConnectionHandle, mInBuffer, mNumberOfBytesToRead)
-  end
-
-  -- Kicks off writing from a byte buffer. The connection
-  -- listener function handles the write result.
-  self.Write = function(self, buffer, numberOfBytesToWrite, writeDoneFun)
-    mOutBuffer = buffer
-    mWriteDoneFun = writeDoneFun
-    -- Start writing bytes.
-    maConnWrite(mConnectionHandle, buffer, numberOfBytesToWrite)
-  end
-
-  return self
 end
 
 function BufferReadInt(buffer, index)

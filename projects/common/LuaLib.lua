@@ -25,7 +25,6 @@
 --[[
 File: LuaLib.lua
 Author: Mikael Kindborg
-Date: 2011-09-01
 
 This is a Lua library built directly on top of the MoSync API.
 
@@ -43,7 +42,7 @@ EventMonitor = (function ()
   local keyDownFun = nil
   local keyUpFun = nil
   local sensorFun = nil
-  local defaultFun = nil
+  local widgetFun = nil
   local anyFun = nil
   local connectionFuns = {}
   local isRunning = false
@@ -76,14 +75,14 @@ EventMonitor = (function ()
     sensorFun = fun
   end
 
-  self.OnDefault = function(self, fun)
-    defaultFun = fun
+  self.OnWidget = function(self, fun)
+    widgetFun = fun
   end
 
   self.OnAny = function(self, fun)
     anyFun = fun
   end
-  
+
   self.SetConnectionFun = function(self, connection, fun)
     connectionFuns[connection] = fun
   end
@@ -107,7 +106,7 @@ EventMonitor = (function ()
     -- This is the event loop.
     while isRunning do
       maWait(self.WaitTime)
-      while 0 ~= maGetEvent(event) do
+      while isRunning and 0 ~= maGetEvent(event) do
         local eventType = SysEventGetType(event)
         if EVENT_TYPE_CLOSE == eventType then
           break -- Exit while loop.
@@ -156,10 +155,9 @@ EventMonitor = (function ()
               SysEventSensorGetValue2(event),
               SysEventSensorGetValue3(event))
           end
-        else
-          -- Handle other events in the default function.
-          if nil ~= defaultFun then
-            defaultFun(event)
+        elseif EVENT_TYPE_WIDGET == eventType then
+          if nil ~= widgetFun then
+            widgetFun(SysEventGetData(event))
           end
         end -- End of ifs
 
@@ -212,8 +210,7 @@ Screen = (function()
 
 end)()
 
-
--- Create a basic connection object.
+-- Function that creates a connection object.
 function SysConnectionCreate()
   -- Table holding the object's methods.
   local self = {}

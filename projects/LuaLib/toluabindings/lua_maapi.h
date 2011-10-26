@@ -225,6 +225,14 @@ typedef unsigned long ulong;
 #define EVENT_TYPE_IMAGE_PICKER 31
 #define EVENT_TYPE_SMS 32
 #define EVENT_TYPE_SENSOR 33
+#define EVENT_TYPE_ALERT 34
+#define EVENT_TYPE_NFC_TAG_RECEIVED 35
+#define EVENT_TYPE_NFC_TAG_DATA_READ 36
+#define EVENT_TYPE_NFC_TAG_DATA_WRITTEN 37
+#define EVENT_TYPE_NFC_BATCH_OP 38
+#define EVENT_TYPE_NFC_TAG_AUTH_COMPLETE 39
+#define EVENT_TYPE_NFC_TAG_READ_ONLY 40
+#define EVENT_TYPE_OPTIONS_BOX_BUTTON_CLICKED 41
 #define RUNTIME_MORE 1
 #define RUNTIME_JAVA 2
 #define RUNTIME_SYMBIAN 3
@@ -261,12 +269,19 @@ typedef unsigned long ulong;
 #define MA_SEEK_SET 0
 #define MA_SEEK_CUR 1
 #define MA_SEEK_END 2
+#define MA_FL_SORT_NONE 0
+#define MA_FL_SORT_DATE 1
+#define MA_FL_SORT_NAME 2
+#define MA_FL_SORT_SIZE 3
+#define MA_FL_ORDER_ASCENDING 0x10000
+#define MA_FL_ORDER_DESCENDING 0x20000
 #define MA_FERR_GENERIC -2
 #define MA_FERR_NOTFOUND -3
 #define MA_FERR_FORBIDDEN -4
 #define MA_FERR_RENAME_FILESYSTEM -5
 #define MA_FERR_RENAME_DIRECTORY -6
 #define MA_FERR_WRONG_TYPE -7
+#define MA_FERR_SORTING_UNSUPPORTED -8
 #define MA_SMS_RESULT_SENT 1
 #define MA_SMS_RESULT_NOT_SENT 2
 #define MA_SMS_RESULT_DELIVERED 3
@@ -302,14 +317,17 @@ typedef unsigned long ulong;
 #define MA_TB_TYPE_PHONENUMBER 3
 #define MA_TB_TYPE_URL 4
 #define MA_TB_TYPE_DECIMAL 5
+#define MA_TB_TYPE_SINGLE_LINE 100
+#define MA_TB_TYPE_MASK 0xFFFF
 #define MA_TB_RES_OK 1
 #define MA_TB_RES_CANCEL 2
-#define MA_TB_FLAG_PASSWORD 0x1000
-#define MA_TB_FLAG_UNEDITABLE 0x2000
-#define MA_TB_FLAG_SENSITIVE 0x4000
-#define MA_TB_FLAG_NON_PREDICTIVE 0x8000
-#define MA_TB_FLAG_INITIAL_CAPS_WORD 0x10000
-#define MA_TB_FLAG_INITIAL_CAPS_SENTENCE 0x20000
+#define MA_TB_RES_TYPE_UNAVAILABLE -3
+#define MA_TB_FLAG_PASSWORD 0x10000
+#define MA_TB_FLAG_UNEDITABLE 0x20000
+#define MA_TB_FLAG_SENSITIVE 0x40000
+#define MA_TB_FLAG_NON_PREDICTIVE 0x80000
+#define MA_TB_FLAG_INITIAL_CAPS_WORD 0x100000
+#define MA_TB_FLAG_INITIAL_CAPS_SENTENCE 0x200000
 #define NOTIFICATION_TYPE_APPLICATION_LAUNCHER 1
 #define SCREEN_ORIENTATION_LANDSCAPE 1
 #define SCREEN_ORIENTATION_PORTRAIT 2
@@ -338,6 +356,30 @@ typedef unsigned long ulong;
 #define UIDEVICE_ORIENTATION_FACE_DOWN 6
 #define SENSOR_PROXIMITY_VALUE_FAR 0
 #define SENSOR_PROXIMITY_VALUE_NEAR 1
+#define MA_NFC_NOT_AVAILABLE -1
+#define MA_NFC_NOT_ENABLED -2
+#define MA_NFC_INVALID_TAG_TYPE -2
+#define MA_NFC_TAG_CONNECTION_LOST -3
+#define MA_NFC_TAG_NOT_CONNECTED -4
+#define MA_NFC_FORMAT_FAILED -5
+#define MA_NFC_TAG_IO_ERROR -127
+#define MA_NFC_TAG_TYPE_NDEF 1
+#define MA_NFC_TAG_TYPE_MIFARE_CL 2
+#define MA_NFC_TAG_TYPE_MIFARE_UL 3
+#define MA_NFC_TAG_TYPE_NFC_A 4
+#define MA_NFC_TAG_TYPE_NFC_B 5
+#define MA_NFC_TAG_TYPE_ISO_DEP 6
+#define MA_NFC_TAG_TYPE_NDEF_FORMATTABLE 128
+#define MA_NFC_NDEF_TNF_EMPTY 0
+#define MA_NFC_NDEF_TNF_WELL_KNOWN 1
+#define MA_NFC_NDEF_TNF_MIME_MEDIA 2
+#define MA_NFC_NDEF_TNF_ABSOLUTE_URI 3
+#define MA_NFC_NDEF_TNF_EXTERNAL_TYPE 4
+#define MA_NFC_NDEF_TNF_UNKNOWN 5
+#define MA_NFC_NDEF_TNF_UNCHANGED 6
+#define MA_NFC_NDEF_TNF_RESERVED 7
+#define MA_NFC_MIFARE_KEY_A 1
+#define MA_NFC_MIFARE_KEY_B 2
 #define IOCTL_UNAVAILABLE -1
 //End of defines.
 int maCheckInterfaceVersion(int hash);
@@ -434,7 +476,6 @@ void maSoundStop(void);
 int maSoundIsPlaying(void);
 int maSoundGetVolume(void);
 void maSoundSetVolume(int vol);
-// longlong maInvokeExtension(int function, int a, int b, int c MA_IOCTL_ELLIPSIS);
 // End of header functions.
 MAHandle maFontLoadDefault(int type, int style, int size);
 MAHandle maFontSetCurrent(MAHandle font);
@@ -479,9 +520,9 @@ int maFileRead(MAHandle file, void* /* void* */ dst, int len);
 int maFileReadToData(MAHandle file, MAHandle data, int offset, int len);
 int maFileTell(MAHandle file);
 int maFileSeek(MAHandle file, int offset, int whence);
-//MAHandle maFileListStart(const char* path, const char* filter);
-//int maFileListNext(MAHandle list, char* nameBuf, int bufSize);
-//int maFileListClose(MAHandle list);
+MAHandle maFileListStart(const char* path, const char* filter, int sorting);
+int maFileListNext(MAHandle list, char* nameBuf, int bufSize);
+int maFileListClose(MAHandle list);
 int maSendTextSMS(const char* dst, const char* msg);
 int maFrameBufferGetInfo(void* /* MAFrameBufferInfo* */ info);
 int maFrameBufferInit(const void* /* void* */ data);
@@ -517,9 +558,50 @@ int maScreenStateEventsOn(void);
 int maScreenStateEventsOff(void);
 void maReportResourceInformation(void);
 void maMessageBox(const char* title, const char* message);
+void maAlert(const char* title, const char* message, const char* button1, const char* button2, const char* button3);
 void maImagePickerOpen(void);
+void maOptionsBox(const void* /* wchar* */ title, const void* /* wchar* */ destructiveButtonTitle, const void* /* wchar* */ cancelButtonTitle, const void* /* void* */ otherButtonTitles, int otherButtonTitlesSize);
 int maSensorStart(int sensor, int interval);
 int maSensorStop(int sensor);
+int maNFCStart(void);
+void maNFCStop(void);
+MAHandle maNFCReadTag(MAHandle nfcContext);
+void maNFCDestroyTag(MAHandle tagHandle);
+void maNFCConnectTag(MAHandle tagHandle);
+void maNFCCloseTag(MAHandle tagHandle);
+int maNFCIsType(MAHandle tagHandle, int type);
+MAHandle maNFCGetTypedTag(MAHandle tagHandle, int type);
+int maNFCBatchStart(MAHandle tagHandle);
+void maNFCBatchCommit(MAHandle tagHandle);
+void maNFCBatchRollback(MAHandle tagHandle);
+int maNFCTransceive(MAHandle tag, const void* /* void* */ src, int srcLen, void* /* void* */ dst, int* dstLen);
+int maNFCSetReadOnly(MAHandle tag);
+int maNFCIsReadOnly(MAHandle tag);
+int maNFCGetSize(MAHandle tag);
+int maNFCReadNDEFMessage(MAHandle tag);
+int maNFCWriteNDEFMessage(MAHandle tag, MAHandle ndefMessage);
+MAHandle maNFCCreateNDEFMessage(int recordCount);
+int maNFCGetNDEFMessage(MAHandle tag);
+MAHandle maNFCGetNDEFRecord(MAHandle ndef, int ix);
+int maNFCGetNDEFRecordCount(MAHandle ndef);
+int maNFCGetNDEFId(MAHandle ndefRecord, void* /* void* */ dst, int len);
+int maNFCGetNDEFPayload(MAHandle ndefRecord, void* /* void* */ dst, int len);
+int maNFCGetNDEFTnf(MAHandle ndefRecord);
+int maNFCGetNDEFType(MAHandle ndefRecord, void* /* void* */ dst, int len);
+int maNFCSetNDEFId(MAHandle ndefRecord, const void* /* void* */ dst, int len);
+int maNFCSetNDEFPayload(MAHandle ndefRecord, const void* /* void* */ dst, int len);
+int maNFCSetNDEFTnf(MAHandle ndefRecord, int tnf);
+int maNFCSetNDEFType(MAHandle ndefRecord, const void* /* void* */ dst, int len);
+int maNFCAuthenticateMifareSector(MAHandle tagHandle, int keyType, int sectorIndex, const void* /* void* */ keySrc, int keyLen);
+int maNFCGetMifareSectorCount(MAHandle tagHandle);
+int maNFCGetMifareBlockCountInSector(MAHandle tagHandle, int sector);
+int maNFCMifareSectorToBlock(MAHandle tagHandle, int sector);
+int maNFCReadMifareBlocks(MAHandle tagHandle, int firstBlock, void* /* void* */ dst, int len);
+int maNFCWriteMifareBlocks(MAHandle tagHandle, int firstBlock, const void* /* void* */ dst, int len);
+int maNFCReadMifarePages(MAHandle tagHandle, int firstPage, void* /* void* */ dst, int len);
+int maNFCWriteMifarePages(MAHandle tagHandle, int firstPage, const void* /* void* */ dst, int len);
+int maSyscallPanicsEnable(void);
+int maSyscallPanicsDisable(void);
 // End of IOCtls.
 typedef signed char khronos_int8_t;
 typedef unsigned char khronos_uint8_t;
@@ -648,6 +730,7 @@ typedef int MAWidgetHandle;
 #define MAW_EVENT_EDIT_BOX_RETURN 19
 #define MAW_EVENT_WEB_VIEW_CONTENT_LOADING 20
 #define MAW_EVENT_WEB_VIEW_HOOK_INVOKED 21
+#define MAW_EVENT_DIALOG_DISMISSED 22
 #define MAW_CONSTANT_MOSYNC_SCREEN_HANDLE 0
 #define MAW_CONSTANT_FILL_AVAILABLE_SPACE -1
 #define MAW_CONSTANT_WRAP_CONTENT -2
@@ -657,6 +740,11 @@ typedef int MAWidgetHandle;
 #define MAW_CONSTANT_ERROR -1
 #define MAW_CONSTANT_SOFT 5
 #define MAW_CONSTANT_HARD 6
+#define MAW_CONSTANT_ARROW_UP 1
+#define MAW_CONSTANT_ARROW_DOWN 2
+#define MAW_CONSTANT_ARROW_LEFT 4
+#define MAW_CONSTANT_ARROW_RIGHT 8
+#define MAW_CONSTANT_ARROW_ANY 15
 #define MAW_ALIGNMENT_LEFT "left"
 #define MAW_ALIGNMENT_RIGHT "right"
 #define MAW_ALIGNMENT_CENTER "center"
@@ -683,6 +771,7 @@ typedef int MAWidgetHandle;
 #define MAW_RES_INVALID_LAYOUT -9
 #define MAW_RES_REMOVED_ROOT -10
 #define MAW_RES_FEATURE_NOT_AVAILABLE -11
+#define MAW_RES_CANNOT_INSERT_DIALOG -12
 #define MAW_SCREEN "Screen"
 #define MAW_TAB_SCREEN "TabScreen"
 #define MAW_STACK_SCREEN "StackScreen"
@@ -711,6 +800,7 @@ typedef int MAWidgetHandle;
 #define MAW_NUMBER_PICKER "NumberPicker"
 #define MAW_VIDEO_VIEW "VideoView"
 #define MAW_TOGGLE_BUTTON "ToggleButton"
+#define MAW_MODAL_DIALOG "ModalDialog"
 #define MAW_WIDGET_LEFT "left"
 #define MAW_WIDGET_TOP "top"
 #define MAW_WIDGET_WIDTH "width"
@@ -751,20 +841,44 @@ typedef int MAWidgetHandle;
 #define MAW_IMAGE_BUTTON_FONT_HANDLE "fontHandle"
 #define MAW_IMAGE_IMAGE "image"
 #define MAW_IMAGE_SCALE_MODE "scaleMode"
+#define MAW_EDIT_BOX_TYPE_ANY 0
+#define MAW_EDIT_BOX_TYPE_EMAILADDR 1
+#define MAW_EDIT_BOX_TYPE_NUMERIC 2
+#define MAW_EDIT_BOX_TYPE_PHONENUMBER 3
+#define MAW_EDIT_BOX_TYPE_URL 4
+#define MAW_EDIT_BOX_TYPE_DECIMAL 5
+#define MAW_EDIT_BOX_TYPE_SINGLE_LINE 6
+#define MAW_EDIT_BOX_FLAG_PASSWORD 0
+#define MAW_EDIT_BOX_FLAG_SENSITIVE 1
+#define MAW_EDIT_BOX_FLAG_INITIAL_CAPS_WORD 2
+#define MAW_EDIT_BOX_FLAG_INITIAL_CAPS_SENTENCE 3
+#define MAW_EDIT_BOX_FLAG_INITIAL_CAPS_ALL_CHARACTERS 4
 #define MAW_EDIT_BOX_TEXT "text"
 #define MAW_EDIT_BOX_PLACEHOLDER "placeholder"
 #define MAW_EDIT_BOX_SHOW_KEYBOARD "showKeyboard"
 #define MAW_EDIT_BOX_EDIT_MODE "editMode"
+#define MAW_EDIT_BOX_INPUT_MODE "inputMode"
+#define MAW_EDIT_BOX_INPUT_FLAG "inputFlag"
 #define MAW_LIST_VIEW_ITEM_TEXT "text"
 #define MAW_LIST_VIEW_ITEM_ICON "icon"
 #define MAW_LIST_VIEW_ITEM_ACCESSORY_TYPE "accessoryType"
+#define MAW_LIST_VIEW_ITEM_FONT_COLOR "fontColor"
+#define MAW_LIST_VIEW_ITEM_FONT_SIZE "fontSize"
 #define MAW_LIST_VIEW_ITEM_FONT_HANDLE "fontHandle"
 #define MAW_CHECK_BOX_CHECKED "checked"
 #define MAW_TOGGLE_BUTTON_CHECKED "checked"
 #define MAW_HORIZONTAL_LAYOUT_CHILD_VERTICAL_ALIGNMENT "childVerticalAlignment"
 #define MAW_HORIZONTAL_LAYOUT_CHILD_HORIZONTAL_ALIGNMENT "childHorizontalAlignment"
+#define MAW_HORIZONTAL_LAYOUT_PADDING_TOP "paddingTop"
+#define MAW_HORIZONTAL_LAYOUT_PADDING_LEFT "paddingLeft"
+#define MAW_HORIZONTAL_LAYOUT_PADDING_RIGHT "paddingRight"
+#define MAW_HORIZONTAL_LAYOUT_PADDING_BOTTOM "paddingBottom"
 #define MAW_VERTICAL_LAYOUT_CHILD_VERTICAL_ALIGNMENT "childVerticalAlignment"
 #define MAW_VERTICAL_LAYOUT_CHILD_HORIZONTAL_ALIGNMENT "childHorizontalAlignment"
+#define MAW_VERTICAL_LAYOUT_PADDING_TOP "paddingTop"
+#define MAW_VERTICAL_LAYOUT_PADDING_LEFT "paddingLeft"
+#define MAW_VERTICAL_LAYOUT_PADDING_RIGHT "paddingRight"
+#define MAW_VERTICAL_LAYOUT_PADDING_BOTTOM "paddingBottom"
 #define MAW_SEARCH_BAR_TEXT "text"
 #define MAW_SEARCH_BAR_PLACEHOLDER "placeholder"
 #define MAW_SEARCH_BAR_SHOW_KEYBOARD "showKeyboard"
@@ -806,14 +920,22 @@ typedef int MAWidgetHandle;
 #define MAW_VIDEO_VIEW_BUFFER_PERCENTAGE "bufferPercentage"
 #define MAW_VIDEO_VIEW_CURRENT_POSITION "currentPosition"
 #define MAW_NAV_BAR_TITLE "title"
+#define MAW_NAV_BAR_ICON "icon"
 #define MAW_NAV_BAR_BACK_BTN "backBtn"
-//#define MAW_NAV_BAR_COLOR "color"
+#define MAW_NAV_BAR_TITLE_FONT_COLOR "titleFontColor"
+#define MAW_NAV_BAR_TITLE_FONT_SIZE "titleFontSize"
+#define MAW_NAV_BAR_TITLE_FONT_HANDLE "titleFontHandle"
+#define MAW_MODAL_DIALOG_TITLE "title"
+#define MAW_MODAL_DIALOG_ARROW_POSITION "arrowPosition"
+#define MAW_MODAL_DIALOG_USER_CAN_DISMISS "userCanDismiss"
 //End of defines.
 MAWidgetHandle maWidgetCreate(const char* widgetType);
 int maWidgetDestroy(MAWidgetHandle widget);
 int maWidgetAddChild(MAWidgetHandle parent, MAWidgetHandle child);
 int maWidgetInsertChild(MAWidgetHandle parent, MAWidgetHandle child, int index);
 int maWidgetRemoveChild(MAWidgetHandle child);
+int maWidgetModalDialogShow(MAWidgetHandle dialogHandle);
+int maWidgetModalDialogHide(MAWidgetHandle dialogHandle);
 int maWidgetScreenShow(MAWidgetHandle screenHandle);
 int maWidgetStackScreenPush(MAWidgetHandle stackScreen, MAWidgetHandle newScreen);
 int maWidgetStackScreenPop(MAWidgetHandle stackScreen);

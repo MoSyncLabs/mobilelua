@@ -45,7 +45,7 @@
   If there is no data, the size should be zero.
 
   Thus we have:
-  
+
     command - 4 byte integer
     data size - 4 byte integer, is 0 if there is no data
     optional data

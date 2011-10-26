@@ -1,6 +1,6 @@
 /*
 ** Lua binding: lua_maapi
-** Generated automatically by tolua 5.1.4 on Wed Oct 12 16:37:50 2011.
+** Generated automatically by tolua 5.1.4 on Wed Oct 26 15:39:24 2011.
 */
 
 #include "tolua.h"
@@ -3860,6 +3860,95 @@ static int tolua_lua_maapi_maFileSeek00(lua_State* tolua_S)
 #endif
 }
 
+/* function: maFileListStart */
+static int tolua_lua_maapi_maFileListStart00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isstring(tolua_S,1,0,&tolua_err) || 
+ !tolua_isstring(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  const char* path = ((const char*)  tolua_tostring(tolua_S,1,0));
+  const char* filter = ((const char*)  tolua_tostring(tolua_S,2,0));
+  int sorting = ((int)  tolua_tonumber(tolua_S,3,0));
+ {
+  MAHandle tolua_ret = (MAHandle)  maFileListStart(path,filter,sorting);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maFileListStart'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maFileListNext */
+static int tolua_lua_maapi_maFileListNext00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isstring(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle list = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  char* nameBuf = ((char*)  tolua_tostring(tolua_S,2,0));
+  int bufSize = ((int)  tolua_tonumber(tolua_S,3,0));
+ {
+  int tolua_ret = (int)  maFileListNext(list,nameBuf,bufSize);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maFileListNext'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maFileListClose */
+static int tolua_lua_maapi_maFileListClose00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle list = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maFileListClose(list);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maFileListClose'.",&tolua_err);
+ return 0;
+#endif
+}
+
 /* function: maSendTextSMS */
 static int tolua_lua_maapi_maSendTextSMS00(lua_State* tolua_S)
 {
@@ -4807,6 +4896,40 @@ static int tolua_lua_maapi_maMessageBox00(lua_State* tolua_S)
 #endif
 }
 
+/* function: maAlert */
+static int tolua_lua_maapi_maAlert00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isstring(tolua_S,1,0,&tolua_err) || 
+ !tolua_isstring(tolua_S,2,0,&tolua_err) || 
+ !tolua_isstring(tolua_S,3,0,&tolua_err) || 
+ !tolua_isstring(tolua_S,4,0,&tolua_err) || 
+ !tolua_isstring(tolua_S,5,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  const char* title = ((const char*)  tolua_tostring(tolua_S,1,0));
+  const char* message = ((const char*)  tolua_tostring(tolua_S,2,0));
+  const char* button1 = ((const char*)  tolua_tostring(tolua_S,3,0));
+  const char* button2 = ((const char*)  tolua_tostring(tolua_S,4,0));
+  const char* button3 = ((const char*)  tolua_tostring(tolua_S,5,0));
+ {
+  maAlert(title,message,button1,button2,button3);
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maAlert'.",&tolua_err);
+ return 0;
+#endif
+}
+
 /* function: maImagePickerOpen */
 static int tolua_lua_maapi_maImagePickerOpen00(lua_State* tolua_S)
 {
@@ -4827,6 +4950,40 @@ static int tolua_lua_maapi_maImagePickerOpen00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'maImagePickerOpen'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maOptionsBox */
+static int tolua_lua_maapi_maOptionsBox00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,2,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,3,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,4,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,5,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  const void* title = ((const void*)  tolua_touserdata(tolua_S,1,0));
+  const void* destructiveButtonTitle = ((const void*)  tolua_touserdata(tolua_S,2,0));
+  const void* cancelButtonTitle = ((const void*)  tolua_touserdata(tolua_S,3,0));
+  const void* otherButtonTitles = ((const void*)  tolua_touserdata(tolua_S,4,0));
+  int otherButtonTitlesSize = ((int)  tolua_tonumber(tolua_S,5,0));
+ {
+  maOptionsBox(title,destructiveButtonTitle,cancelButtonTitle,otherButtonTitles,otherButtonTitlesSize);
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maOptionsBox'.",&tolua_err);
  return 0;
 #endif
 }
@@ -4883,6 +5040,1124 @@ static int tolua_lua_maapi_maSensorStop00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'maSensorStop'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCStart */
+static int tolua_lua_maapi_maNFCStart00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnoobj(tolua_S,1,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  int tolua_ret = (int)  maNFCStart();
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCStart'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCStop */
+static int tolua_lua_maapi_maNFCStop00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnoobj(tolua_S,1,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  maNFCStop();
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCStop'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCReadTag */
+static int tolua_lua_maapi_maNFCReadTag00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle nfcContext = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  MAHandle tolua_ret = (MAHandle)  maNFCReadTag(nfcContext);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCReadTag'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCDestroyTag */
+static int tolua_lua_maapi_maNFCDestroyTag00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  maNFCDestroyTag(tagHandle);
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCDestroyTag'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCConnectTag */
+static int tolua_lua_maapi_maNFCConnectTag00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  maNFCConnectTag(tagHandle);
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCConnectTag'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCCloseTag */
+static int tolua_lua_maapi_maNFCCloseTag00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  maNFCCloseTag(tagHandle);
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCCloseTag'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCIsType */
+static int tolua_lua_maapi_maNFCIsType00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  int type = ((int)  tolua_tonumber(tolua_S,2,0));
+ {
+  int tolua_ret = (int)  maNFCIsType(tagHandle,type);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCIsType'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCGetTypedTag */
+static int tolua_lua_maapi_maNFCGetTypedTag00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  int type = ((int)  tolua_tonumber(tolua_S,2,0));
+ {
+  MAHandle tolua_ret = (MAHandle)  maNFCGetTypedTag(tagHandle,type);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCGetTypedTag'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCBatchStart */
+static int tolua_lua_maapi_maNFCBatchStart00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maNFCBatchStart(tagHandle);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCBatchStart'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCBatchCommit */
+static int tolua_lua_maapi_maNFCBatchCommit00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  maNFCBatchCommit(tagHandle);
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCBatchCommit'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCBatchRollback */
+static int tolua_lua_maapi_maNFCBatchRollback00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  maNFCBatchRollback(tagHandle);
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCBatchRollback'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCTransceive */
+static int tolua_lua_maapi_maNFCTransceive00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,3,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,4,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,5,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tag = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  const void* src = ((const void*)  tolua_touserdata(tolua_S,2,0));
+  int srcLen = ((int)  tolua_tonumber(tolua_S,3,0));
+  void* dst = ((void*)  tolua_touserdata(tolua_S,4,0));
+  int dstLen = ((int)  tolua_tonumber(tolua_S,5,0));
+ {
+  int tolua_ret = (int)  maNFCTransceive(tag,src,srcLen,dst,&dstLen);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ tolua_pushnumber(tolua_S,(lua_Number)dstLen);
+ }
+ }
+ return 2;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCTransceive'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCSetReadOnly */
+static int tolua_lua_maapi_maNFCSetReadOnly00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tag = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maNFCSetReadOnly(tag);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCSetReadOnly'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCIsReadOnly */
+static int tolua_lua_maapi_maNFCIsReadOnly00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tag = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maNFCIsReadOnly(tag);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCIsReadOnly'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCGetSize */
+static int tolua_lua_maapi_maNFCGetSize00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tag = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maNFCGetSize(tag);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCGetSize'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCReadNDEFMessage */
+static int tolua_lua_maapi_maNFCReadNDEFMessage00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tag = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maNFCReadNDEFMessage(tag);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCReadNDEFMessage'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCWriteNDEFMessage */
+static int tolua_lua_maapi_maNFCWriteNDEFMessage00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tag = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  MAHandle ndefMessage = ((MAHandle)  tolua_tonumber(tolua_S,2,0));
+ {
+  int tolua_ret = (int)  maNFCWriteNDEFMessage(tag,ndefMessage);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCWriteNDEFMessage'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCCreateNDEFMessage */
+static int tolua_lua_maapi_maNFCCreateNDEFMessage00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  int recordCount = ((int)  tolua_tonumber(tolua_S,1,0));
+ {
+  MAHandle tolua_ret = (MAHandle)  maNFCCreateNDEFMessage(recordCount);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCCreateNDEFMessage'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCGetNDEFMessage */
+static int tolua_lua_maapi_maNFCGetNDEFMessage00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tag = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maNFCGetNDEFMessage(tag);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCGetNDEFMessage'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCGetNDEFRecord */
+static int tolua_lua_maapi_maNFCGetNDEFRecord00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle ndef = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  int ix = ((int)  tolua_tonumber(tolua_S,2,0));
+ {
+  MAHandle tolua_ret = (MAHandle)  maNFCGetNDEFRecord(ndef,ix);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCGetNDEFRecord'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCGetNDEFRecordCount */
+static int tolua_lua_maapi_maNFCGetNDEFRecordCount00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle ndef = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maNFCGetNDEFRecordCount(ndef);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCGetNDEFRecordCount'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCGetNDEFId */
+static int tolua_lua_maapi_maNFCGetNDEFId00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle ndefRecord = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  void* dst = ((void*)  tolua_touserdata(tolua_S,2,0));
+  int len = ((int)  tolua_tonumber(tolua_S,3,0));
+ {
+  int tolua_ret = (int)  maNFCGetNDEFId(ndefRecord,dst,len);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCGetNDEFId'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCGetNDEFPayload */
+static int tolua_lua_maapi_maNFCGetNDEFPayload00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle ndefRecord = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  void* dst = ((void*)  tolua_touserdata(tolua_S,2,0));
+  int len = ((int)  tolua_tonumber(tolua_S,3,0));
+ {
+  int tolua_ret = (int)  maNFCGetNDEFPayload(ndefRecord,dst,len);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCGetNDEFPayload'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCGetNDEFTnf */
+static int tolua_lua_maapi_maNFCGetNDEFTnf00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle ndefRecord = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maNFCGetNDEFTnf(ndefRecord);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCGetNDEFTnf'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCGetNDEFType */
+static int tolua_lua_maapi_maNFCGetNDEFType00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle ndefRecord = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  void* dst = ((void*)  tolua_touserdata(tolua_S,2,0));
+  int len = ((int)  tolua_tonumber(tolua_S,3,0));
+ {
+  int tolua_ret = (int)  maNFCGetNDEFType(ndefRecord,dst,len);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCGetNDEFType'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCSetNDEFId */
+static int tolua_lua_maapi_maNFCSetNDEFId00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle ndefRecord = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  const void* dst = ((const void*)  tolua_touserdata(tolua_S,2,0));
+  int len = ((int)  tolua_tonumber(tolua_S,3,0));
+ {
+  int tolua_ret = (int)  maNFCSetNDEFId(ndefRecord,dst,len);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCSetNDEFId'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCSetNDEFPayload */
+static int tolua_lua_maapi_maNFCSetNDEFPayload00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle ndefRecord = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  const void* dst = ((const void*)  tolua_touserdata(tolua_S,2,0));
+  int len = ((int)  tolua_tonumber(tolua_S,3,0));
+ {
+  int tolua_ret = (int)  maNFCSetNDEFPayload(ndefRecord,dst,len);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCSetNDEFPayload'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCSetNDEFTnf */
+static int tolua_lua_maapi_maNFCSetNDEFTnf00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle ndefRecord = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  int tnf = ((int)  tolua_tonumber(tolua_S,2,0));
+ {
+  int tolua_ret = (int)  maNFCSetNDEFTnf(ndefRecord,tnf);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCSetNDEFTnf'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCSetNDEFType */
+static int tolua_lua_maapi_maNFCSetNDEFType00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle ndefRecord = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  const void* dst = ((const void*)  tolua_touserdata(tolua_S,2,0));
+  int len = ((int)  tolua_tonumber(tolua_S,3,0));
+ {
+  int tolua_ret = (int)  maNFCSetNDEFType(ndefRecord,dst,len);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCSetNDEFType'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCAuthenticateMifareSector */
+static int tolua_lua_maapi_maNFCAuthenticateMifareSector00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,3,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,4,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,5,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  int keyType = ((int)  tolua_tonumber(tolua_S,2,0));
+  int sectorIndex = ((int)  tolua_tonumber(tolua_S,3,0));
+  const void* keySrc = ((const void*)  tolua_touserdata(tolua_S,4,0));
+  int keyLen = ((int)  tolua_tonumber(tolua_S,5,0));
+ {
+  int tolua_ret = (int)  maNFCAuthenticateMifareSector(tagHandle,keyType,sectorIndex,keySrc,keyLen);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCAuthenticateMifareSector'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCGetMifareSectorCount */
+static int tolua_lua_maapi_maNFCGetMifareSectorCount00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maNFCGetMifareSectorCount(tagHandle);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCGetMifareSectorCount'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCGetMifareBlockCountInSector */
+static int tolua_lua_maapi_maNFCGetMifareBlockCountInSector00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  int sector = ((int)  tolua_tonumber(tolua_S,2,0));
+ {
+  int tolua_ret = (int)  maNFCGetMifareBlockCountInSector(tagHandle,sector);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCGetMifareBlockCountInSector'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCMifareSectorToBlock */
+static int tolua_lua_maapi_maNFCMifareSectorToBlock00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  int sector = ((int)  tolua_tonumber(tolua_S,2,0));
+ {
+  int tolua_ret = (int)  maNFCMifareSectorToBlock(tagHandle,sector);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCMifareSectorToBlock'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCReadMifareBlocks */
+static int tolua_lua_maapi_maNFCReadMifareBlocks00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,4,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  int firstBlock = ((int)  tolua_tonumber(tolua_S,2,0));
+  void* dst = ((void*)  tolua_touserdata(tolua_S,3,0));
+  int len = ((int)  tolua_tonumber(tolua_S,4,0));
+ {
+  int tolua_ret = (int)  maNFCReadMifareBlocks(tagHandle,firstBlock,dst,len);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCReadMifareBlocks'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCWriteMifareBlocks */
+static int tolua_lua_maapi_maNFCWriteMifareBlocks00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,4,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  int firstBlock = ((int)  tolua_tonumber(tolua_S,2,0));
+  const void* dst = ((const void*)  tolua_touserdata(tolua_S,3,0));
+  int len = ((int)  tolua_tonumber(tolua_S,4,0));
+ {
+  int tolua_ret = (int)  maNFCWriteMifareBlocks(tagHandle,firstBlock,dst,len);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCWriteMifareBlocks'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCReadMifarePages */
+static int tolua_lua_maapi_maNFCReadMifarePages00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,4,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  int firstPage = ((int)  tolua_tonumber(tolua_S,2,0));
+  void* dst = ((void*)  tolua_touserdata(tolua_S,3,0));
+  int len = ((int)  tolua_tonumber(tolua_S,4,0));
+ {
+  int tolua_ret = (int)  maNFCReadMifarePages(tagHandle,firstPage,dst,len);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCReadMifarePages'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maNFCWriteMifarePages */
+static int tolua_lua_maapi_maNFCWriteMifarePages00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) || 
+ !tolua_isuserdata(tolua_S,3,0,&tolua_err) || 
+ !tolua_isnumber(tolua_S,4,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAHandle tagHandle = ((MAHandle)  tolua_tonumber(tolua_S,1,0));
+  int firstPage = ((int)  tolua_tonumber(tolua_S,2,0));
+  const void* dst = ((const void*)  tolua_touserdata(tolua_S,3,0));
+  int len = ((int)  tolua_tonumber(tolua_S,4,0));
+ {
+  int tolua_ret = (int)  maNFCWriteMifarePages(tagHandle,firstPage,dst,len);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maNFCWriteMifarePages'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maSyscallPanicsEnable */
+static int tolua_lua_maapi_maSyscallPanicsEnable00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnoobj(tolua_S,1,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  int tolua_ret = (int)  maSyscallPanicsEnable();
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maSyscallPanicsEnable'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maSyscallPanicsDisable */
+static int tolua_lua_maapi_maSyscallPanicsDisable00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnoobj(tolua_S,1,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  int tolua_ret = (int)  maSyscallPanicsDisable();
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maSyscallPanicsDisable'.",&tolua_err);
  return 0;
 #endif
 }
@@ -6863,6 +8138,60 @@ static int tolua_lua_maapi_maWidgetRemoveChild00(lua_State* tolua_S)
 #endif
 }
 
+/* function: maWidgetModalDialogShow */
+static int tolua_lua_maapi_maWidgetModalDialogShow00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAWidgetHandle dialogHandle = ((MAWidgetHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maWidgetModalDialogShow(dialogHandle);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maWidgetModalDialogShow'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: maWidgetModalDialogHide */
+static int tolua_lua_maapi_maWidgetModalDialogHide00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isnumber(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  MAWidgetHandle dialogHandle = ((MAWidgetHandle)  tolua_tonumber(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  maWidgetModalDialogHide(dialogHandle);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'maWidgetModalDialogHide'.",&tolua_err);
+ return 0;
+#endif
+}
+
 /* function: maWidgetScreenShow */
 static int tolua_lua_maapi_maWidgetScreenShow00(lua_State* tolua_S)
 {
@@ -8520,6 +9849,168 @@ static int tolua_lua_maapi_SysEventLocationGetAlt00(lua_State* tolua_S)
 #endif
 }
 
+/* function: SysWidgetEventGetType */
+static int tolua_lua_maapi_SysWidgetEventGetType00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* widgetEvent = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  SysWidgetEventGetType(widgetEvent);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysWidgetEventGetType'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysWidgetEventGetHandle */
+static int tolua_lua_maapi_SysWidgetEventGetHandle00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* widgetEvent = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  SysWidgetEventGetHandle(widgetEvent);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysWidgetEventGetHandle'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysWidgetEventGetListItemIndex */
+static int tolua_lua_maapi_SysWidgetEventGetListItemIndex00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* widgetEvent = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  SysWidgetEventGetListItemIndex(widgetEvent);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysWidgetEventGetListItemIndex'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysWidgetEventGetChecked */
+static int tolua_lua_maapi_SysWidgetEventGetChecked00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* widgetEvent = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  SysWidgetEventGetChecked(widgetEvent);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysWidgetEventGetChecked'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysWidgetEventGetTabIndex */
+static int tolua_lua_maapi_SysWidgetEventGetTabIndex00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* widgetEvent = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  SysWidgetEventGetTabIndex(widgetEvent);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysWidgetEventGetTabIndex'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* function: SysWidgetEventGetUrlData */
+static int tolua_lua_maapi_SysWidgetEventGetUrlData00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isuserdata(tolua_S,1,0,&tolua_err) || 
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  void* widgetEvent = ((void*)  tolua_touserdata(tolua_S,1,0));
+ {
+  int tolua_ret = (int)  SysWidgetEventGetUrlData(widgetEvent);
+ tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SysWidgetEventGetUrlData'.",&tolua_err);
+ return 0;
+#endif
+}
+
 /* function: SysPointCreate */
 static int tolua_lua_maapi_SysPointCreate00(lua_State* tolua_S)
 {
@@ -9299,6 +10790,14 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant(tolua_S,"EVENT_TYPE_IMAGE_PICKER",EVENT_TYPE_IMAGE_PICKER);
  tolua_constant(tolua_S,"EVENT_TYPE_SMS",EVENT_TYPE_SMS);
  tolua_constant(tolua_S,"EVENT_TYPE_SENSOR",EVENT_TYPE_SENSOR);
+ tolua_constant(tolua_S,"EVENT_TYPE_ALERT",EVENT_TYPE_ALERT);
+ tolua_constant(tolua_S,"EVENT_TYPE_NFC_TAG_RECEIVED",EVENT_TYPE_NFC_TAG_RECEIVED);
+ tolua_constant(tolua_S,"EVENT_TYPE_NFC_TAG_DATA_READ",EVENT_TYPE_NFC_TAG_DATA_READ);
+ tolua_constant(tolua_S,"EVENT_TYPE_NFC_TAG_DATA_WRITTEN",EVENT_TYPE_NFC_TAG_DATA_WRITTEN);
+ tolua_constant(tolua_S,"EVENT_TYPE_NFC_BATCH_OP",EVENT_TYPE_NFC_BATCH_OP);
+ tolua_constant(tolua_S,"EVENT_TYPE_NFC_TAG_AUTH_COMPLETE",EVENT_TYPE_NFC_TAG_AUTH_COMPLETE);
+ tolua_constant(tolua_S,"EVENT_TYPE_NFC_TAG_READ_ONLY",EVENT_TYPE_NFC_TAG_READ_ONLY);
+ tolua_constant(tolua_S,"EVENT_TYPE_OPTIONS_BOX_BUTTON_CLICKED",EVENT_TYPE_OPTIONS_BOX_BUTTON_CLICKED);
  tolua_constant(tolua_S,"RUNTIME_MORE",RUNTIME_MORE);
  tolua_constant(tolua_S,"RUNTIME_JAVA",RUNTIME_JAVA);
  tolua_constant(tolua_S,"RUNTIME_SYMBIAN",RUNTIME_SYMBIAN);
@@ -9335,12 +10834,19 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant(tolua_S,"MA_SEEK_SET",MA_SEEK_SET);
  tolua_constant(tolua_S,"MA_SEEK_CUR",MA_SEEK_CUR);
  tolua_constant(tolua_S,"MA_SEEK_END",MA_SEEK_END);
+ tolua_constant(tolua_S,"MA_FL_SORT_NONE",MA_FL_SORT_NONE);
+ tolua_constant(tolua_S,"MA_FL_SORT_DATE",MA_FL_SORT_DATE);
+ tolua_constant(tolua_S,"MA_FL_SORT_NAME",MA_FL_SORT_NAME);
+ tolua_constant(tolua_S,"MA_FL_SORT_SIZE",MA_FL_SORT_SIZE);
+ tolua_constant(tolua_S,"MA_FL_ORDER_ASCENDING",MA_FL_ORDER_ASCENDING);
+ tolua_constant(tolua_S,"MA_FL_ORDER_DESCENDING",MA_FL_ORDER_DESCENDING);
  tolua_constant(tolua_S,"MA_FERR_GENERIC",MA_FERR_GENERIC);
  tolua_constant(tolua_S,"MA_FERR_NOTFOUND",MA_FERR_NOTFOUND);
  tolua_constant(tolua_S,"MA_FERR_FORBIDDEN",MA_FERR_FORBIDDEN);
  tolua_constant(tolua_S,"MA_FERR_RENAME_FILESYSTEM",MA_FERR_RENAME_FILESYSTEM);
  tolua_constant(tolua_S,"MA_FERR_RENAME_DIRECTORY",MA_FERR_RENAME_DIRECTORY);
  tolua_constant(tolua_S,"MA_FERR_WRONG_TYPE",MA_FERR_WRONG_TYPE);
+ tolua_constant(tolua_S,"MA_FERR_SORTING_UNSUPPORTED",MA_FERR_SORTING_UNSUPPORTED);
  tolua_constant(tolua_S,"MA_SMS_RESULT_SENT",MA_SMS_RESULT_SENT);
  tolua_constant(tolua_S,"MA_SMS_RESULT_NOT_SENT",MA_SMS_RESULT_NOT_SENT);
  tolua_constant(tolua_S,"MA_SMS_RESULT_DELIVERED",MA_SMS_RESULT_DELIVERED);
@@ -9376,8 +10882,11 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant(tolua_S,"MA_TB_TYPE_PHONENUMBER",MA_TB_TYPE_PHONENUMBER);
  tolua_constant(tolua_S,"MA_TB_TYPE_URL",MA_TB_TYPE_URL);
  tolua_constant(tolua_S,"MA_TB_TYPE_DECIMAL",MA_TB_TYPE_DECIMAL);
+ tolua_constant(tolua_S,"MA_TB_TYPE_SINGLE_LINE",MA_TB_TYPE_SINGLE_LINE);
+ tolua_constant(tolua_S,"MA_TB_TYPE_MASK",MA_TB_TYPE_MASK);
  tolua_constant(tolua_S,"MA_TB_RES_OK",MA_TB_RES_OK);
  tolua_constant(tolua_S,"MA_TB_RES_CANCEL",MA_TB_RES_CANCEL);
+ tolua_constant(tolua_S,"MA_TB_RES_TYPE_UNAVAILABLE",MA_TB_RES_TYPE_UNAVAILABLE);
  tolua_constant(tolua_S,"MA_TB_FLAG_PASSWORD",MA_TB_FLAG_PASSWORD);
  tolua_constant(tolua_S,"MA_TB_FLAG_UNEDITABLE",MA_TB_FLAG_UNEDITABLE);
  tolua_constant(tolua_S,"MA_TB_FLAG_SENSITIVE",MA_TB_FLAG_SENSITIVE);
@@ -9412,6 +10921,30 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant(tolua_S,"UIDEVICE_ORIENTATION_FACE_DOWN",UIDEVICE_ORIENTATION_FACE_DOWN);
  tolua_constant(tolua_S,"SENSOR_PROXIMITY_VALUE_FAR",SENSOR_PROXIMITY_VALUE_FAR);
  tolua_constant(tolua_S,"SENSOR_PROXIMITY_VALUE_NEAR",SENSOR_PROXIMITY_VALUE_NEAR);
+ tolua_constant(tolua_S,"MA_NFC_NOT_AVAILABLE",MA_NFC_NOT_AVAILABLE);
+ tolua_constant(tolua_S,"MA_NFC_NOT_ENABLED",MA_NFC_NOT_ENABLED);
+ tolua_constant(tolua_S,"MA_NFC_INVALID_TAG_TYPE",MA_NFC_INVALID_TAG_TYPE);
+ tolua_constant(tolua_S,"MA_NFC_TAG_CONNECTION_LOST",MA_NFC_TAG_CONNECTION_LOST);
+ tolua_constant(tolua_S,"MA_NFC_TAG_NOT_CONNECTED",MA_NFC_TAG_NOT_CONNECTED);
+ tolua_constant(tolua_S,"MA_NFC_FORMAT_FAILED",MA_NFC_FORMAT_FAILED);
+ tolua_constant(tolua_S,"MA_NFC_TAG_IO_ERROR",MA_NFC_TAG_IO_ERROR);
+ tolua_constant(tolua_S,"MA_NFC_TAG_TYPE_NDEF",MA_NFC_TAG_TYPE_NDEF);
+ tolua_constant(tolua_S,"MA_NFC_TAG_TYPE_MIFARE_CL",MA_NFC_TAG_TYPE_MIFARE_CL);
+ tolua_constant(tolua_S,"MA_NFC_TAG_TYPE_MIFARE_UL",MA_NFC_TAG_TYPE_MIFARE_UL);
+ tolua_constant(tolua_S,"MA_NFC_TAG_TYPE_NFC_A",MA_NFC_TAG_TYPE_NFC_A);
+ tolua_constant(tolua_S,"MA_NFC_TAG_TYPE_NFC_B",MA_NFC_TAG_TYPE_NFC_B);
+ tolua_constant(tolua_S,"MA_NFC_TAG_TYPE_ISO_DEP",MA_NFC_TAG_TYPE_ISO_DEP);
+ tolua_constant(tolua_S,"MA_NFC_TAG_TYPE_NDEF_FORMATTABLE",MA_NFC_TAG_TYPE_NDEF_FORMATTABLE);
+ tolua_constant(tolua_S,"MA_NFC_NDEF_TNF_EMPTY",MA_NFC_NDEF_TNF_EMPTY);
+ tolua_constant(tolua_S,"MA_NFC_NDEF_TNF_WELL_KNOWN",MA_NFC_NDEF_TNF_WELL_KNOWN);
+ tolua_constant(tolua_S,"MA_NFC_NDEF_TNF_MIME_MEDIA",MA_NFC_NDEF_TNF_MIME_MEDIA);
+ tolua_constant(tolua_S,"MA_NFC_NDEF_TNF_ABSOLUTE_URI",MA_NFC_NDEF_TNF_ABSOLUTE_URI);
+ tolua_constant(tolua_S,"MA_NFC_NDEF_TNF_EXTERNAL_TYPE",MA_NFC_NDEF_TNF_EXTERNAL_TYPE);
+ tolua_constant(tolua_S,"MA_NFC_NDEF_TNF_UNKNOWN",MA_NFC_NDEF_TNF_UNKNOWN);
+ tolua_constant(tolua_S,"MA_NFC_NDEF_TNF_UNCHANGED",MA_NFC_NDEF_TNF_UNCHANGED);
+ tolua_constant(tolua_S,"MA_NFC_NDEF_TNF_RESERVED",MA_NFC_NDEF_TNF_RESERVED);
+ tolua_constant(tolua_S,"MA_NFC_MIFARE_KEY_A",MA_NFC_MIFARE_KEY_A);
+ tolua_constant(tolua_S,"MA_NFC_MIFARE_KEY_B",MA_NFC_MIFARE_KEY_B);
  tolua_constant(tolua_S,"IOCTL_UNAVAILABLE",IOCTL_UNAVAILABLE);
  tolua_function(tolua_S,"maCheckInterfaceVersion",tolua_lua_maapi_maCheckInterfaceVersion00);
  tolua_function(tolua_S,"maExit",tolua_lua_maapi_maExit00);
@@ -9550,6 +11083,9 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_function(tolua_S,"maFileReadToData",tolua_lua_maapi_maFileReadToData00);
  tolua_function(tolua_S,"maFileTell",tolua_lua_maapi_maFileTell00);
  tolua_function(tolua_S,"maFileSeek",tolua_lua_maapi_maFileSeek00);
+ tolua_function(tolua_S,"maFileListStart",tolua_lua_maapi_maFileListStart00);
+ tolua_function(tolua_S,"maFileListNext",tolua_lua_maapi_maFileListNext00);
+ tolua_function(tolua_S,"maFileListClose",tolua_lua_maapi_maFileListClose00);
  tolua_function(tolua_S,"maSendTextSMS",tolua_lua_maapi_maSendTextSMS00);
  tolua_function(tolua_S,"maFrameBufferGetInfo",tolua_lua_maapi_maFrameBufferGetInfo00);
  tolua_function(tolua_S,"maFrameBufferInit",tolua_lua_maapi_maFrameBufferInit00);
@@ -9585,9 +11121,50 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_function(tolua_S,"maScreenStateEventsOff",tolua_lua_maapi_maScreenStateEventsOff00);
  tolua_function(tolua_S,"maReportResourceInformation",tolua_lua_maapi_maReportResourceInformation00);
  tolua_function(tolua_S,"maMessageBox",tolua_lua_maapi_maMessageBox00);
+ tolua_function(tolua_S,"maAlert",tolua_lua_maapi_maAlert00);
  tolua_function(tolua_S,"maImagePickerOpen",tolua_lua_maapi_maImagePickerOpen00);
+ tolua_function(tolua_S,"maOptionsBox",tolua_lua_maapi_maOptionsBox00);
  tolua_function(tolua_S,"maSensorStart",tolua_lua_maapi_maSensorStart00);
  tolua_function(tolua_S,"maSensorStop",tolua_lua_maapi_maSensorStop00);
+ tolua_function(tolua_S,"maNFCStart",tolua_lua_maapi_maNFCStart00);
+ tolua_function(tolua_S,"maNFCStop",tolua_lua_maapi_maNFCStop00);
+ tolua_function(tolua_S,"maNFCReadTag",tolua_lua_maapi_maNFCReadTag00);
+ tolua_function(tolua_S,"maNFCDestroyTag",tolua_lua_maapi_maNFCDestroyTag00);
+ tolua_function(tolua_S,"maNFCConnectTag",tolua_lua_maapi_maNFCConnectTag00);
+ tolua_function(tolua_S,"maNFCCloseTag",tolua_lua_maapi_maNFCCloseTag00);
+ tolua_function(tolua_S,"maNFCIsType",tolua_lua_maapi_maNFCIsType00);
+ tolua_function(tolua_S,"maNFCGetTypedTag",tolua_lua_maapi_maNFCGetTypedTag00);
+ tolua_function(tolua_S,"maNFCBatchStart",tolua_lua_maapi_maNFCBatchStart00);
+ tolua_function(tolua_S,"maNFCBatchCommit",tolua_lua_maapi_maNFCBatchCommit00);
+ tolua_function(tolua_S,"maNFCBatchRollback",tolua_lua_maapi_maNFCBatchRollback00);
+ tolua_function(tolua_S,"maNFCTransceive",tolua_lua_maapi_maNFCTransceive00);
+ tolua_function(tolua_S,"maNFCSetReadOnly",tolua_lua_maapi_maNFCSetReadOnly00);
+ tolua_function(tolua_S,"maNFCIsReadOnly",tolua_lua_maapi_maNFCIsReadOnly00);
+ tolua_function(tolua_S,"maNFCGetSize",tolua_lua_maapi_maNFCGetSize00);
+ tolua_function(tolua_S,"maNFCReadNDEFMessage",tolua_lua_maapi_maNFCReadNDEFMessage00);
+ tolua_function(tolua_S,"maNFCWriteNDEFMessage",tolua_lua_maapi_maNFCWriteNDEFMessage00);
+ tolua_function(tolua_S,"maNFCCreateNDEFMessage",tolua_lua_maapi_maNFCCreateNDEFMessage00);
+ tolua_function(tolua_S,"maNFCGetNDEFMessage",tolua_lua_maapi_maNFCGetNDEFMessage00);
+ tolua_function(tolua_S,"maNFCGetNDEFRecord",tolua_lua_maapi_maNFCGetNDEFRecord00);
+ tolua_function(tolua_S,"maNFCGetNDEFRecordCount",tolua_lua_maapi_maNFCGetNDEFRecordCount00);
+ tolua_function(tolua_S,"maNFCGetNDEFId",tolua_lua_maapi_maNFCGetNDEFId00);
+ tolua_function(tolua_S,"maNFCGetNDEFPayload",tolua_lua_maapi_maNFCGetNDEFPayload00);
+ tolua_function(tolua_S,"maNFCGetNDEFTnf",tolua_lua_maapi_maNFCGetNDEFTnf00);
+ tolua_function(tolua_S,"maNFCGetNDEFType",tolua_lua_maapi_maNFCGetNDEFType00);
+ tolua_function(tolua_S,"maNFCSetNDEFId",tolua_lua_maapi_maNFCSetNDEFId00);
+ tolua_function(tolua_S,"maNFCSetNDEFPayload",tolua_lua_maapi_maNFCSetNDEFPayload00);
+ tolua_function(tolua_S,"maNFCSetNDEFTnf",tolua_lua_maapi_maNFCSetNDEFTnf00);
+ tolua_function(tolua_S,"maNFCSetNDEFType",tolua_lua_maapi_maNFCSetNDEFType00);
+ tolua_function(tolua_S,"maNFCAuthenticateMifareSector",tolua_lua_maapi_maNFCAuthenticateMifareSector00);
+ tolua_function(tolua_S,"maNFCGetMifareSectorCount",tolua_lua_maapi_maNFCGetMifareSectorCount00);
+ tolua_function(tolua_S,"maNFCGetMifareBlockCountInSector",tolua_lua_maapi_maNFCGetMifareBlockCountInSector00);
+ tolua_function(tolua_S,"maNFCMifareSectorToBlock",tolua_lua_maapi_maNFCMifareSectorToBlock00);
+ tolua_function(tolua_S,"maNFCReadMifareBlocks",tolua_lua_maapi_maNFCReadMifareBlocks00);
+ tolua_function(tolua_S,"maNFCWriteMifareBlocks",tolua_lua_maapi_maNFCWriteMifareBlocks00);
+ tolua_function(tolua_S,"maNFCReadMifarePages",tolua_lua_maapi_maNFCReadMifarePages00);
+ tolua_function(tolua_S,"maNFCWriteMifarePages",tolua_lua_maapi_maNFCWriteMifarePages00);
+ tolua_function(tolua_S,"maSyscallPanicsEnable",tolua_lua_maapi_maSyscallPanicsEnable00);
+ tolua_function(tolua_S,"maSyscallPanicsDisable",tolua_lua_maapi_maSyscallPanicsDisable00);
  tolua_constant(tolua_S,"MA_GL_TEX_IMAGE_2D_OK",MA_GL_TEX_IMAGE_2D_OK);
  tolua_constant(tolua_S,"MA_GL_TEX_IMAGE_2D_INVALID_IMAGE",MA_GL_TEX_IMAGE_2D_INVALID_IMAGE);
  tolua_constant(tolua_S,"MA_GL_API_GL2",MA_GL_API_GL2);
@@ -9677,6 +11254,7 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant(tolua_S,"MAW_EVENT_EDIT_BOX_RETURN",MAW_EVENT_EDIT_BOX_RETURN);
  tolua_constant(tolua_S,"MAW_EVENT_WEB_VIEW_CONTENT_LOADING",MAW_EVENT_WEB_VIEW_CONTENT_LOADING);
  tolua_constant(tolua_S,"MAW_EVENT_WEB_VIEW_HOOK_INVOKED",MAW_EVENT_WEB_VIEW_HOOK_INVOKED);
+ tolua_constant(tolua_S,"MAW_EVENT_DIALOG_DISMISSED",MAW_EVENT_DIALOG_DISMISSED);
  tolua_constant(tolua_S,"MAW_CONSTANT_MOSYNC_SCREEN_HANDLE",MAW_CONSTANT_MOSYNC_SCREEN_HANDLE);
  tolua_constant(tolua_S,"MAW_CONSTANT_FILL_AVAILABLE_SPACE",MAW_CONSTANT_FILL_AVAILABLE_SPACE);
  tolua_constant(tolua_S,"MAW_CONSTANT_WRAP_CONTENT",MAW_CONSTANT_WRAP_CONTENT);
@@ -9686,6 +11264,11 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant(tolua_S,"MAW_CONSTANT_ERROR",MAW_CONSTANT_ERROR);
  tolua_constant(tolua_S,"MAW_CONSTANT_SOFT",MAW_CONSTANT_SOFT);
  tolua_constant(tolua_S,"MAW_CONSTANT_HARD",MAW_CONSTANT_HARD);
+ tolua_constant(tolua_S,"MAW_CONSTANT_ARROW_UP",MAW_CONSTANT_ARROW_UP);
+ tolua_constant(tolua_S,"MAW_CONSTANT_ARROW_DOWN",MAW_CONSTANT_ARROW_DOWN);
+ tolua_constant(tolua_S,"MAW_CONSTANT_ARROW_LEFT",MAW_CONSTANT_ARROW_LEFT);
+ tolua_constant(tolua_S,"MAW_CONSTANT_ARROW_RIGHT",MAW_CONSTANT_ARROW_RIGHT);
+ tolua_constant(tolua_S,"MAW_CONSTANT_ARROW_ANY",MAW_CONSTANT_ARROW_ANY);
  tolua_constant_string(tolua_S,"MAW_ALIGNMENT_LEFT",MAW_ALIGNMENT_LEFT);
  tolua_constant_string(tolua_S,"MAW_ALIGNMENT_RIGHT",MAW_ALIGNMENT_RIGHT);
  tolua_constant_string(tolua_S,"MAW_ALIGNMENT_CENTER",MAW_ALIGNMENT_CENTER);
@@ -9712,6 +11295,7 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant(tolua_S,"MAW_RES_INVALID_LAYOUT",MAW_RES_INVALID_LAYOUT);
  tolua_constant(tolua_S,"MAW_RES_REMOVED_ROOT",MAW_RES_REMOVED_ROOT);
  tolua_constant(tolua_S,"MAW_RES_FEATURE_NOT_AVAILABLE",MAW_RES_FEATURE_NOT_AVAILABLE);
+ tolua_constant(tolua_S,"MAW_RES_CANNOT_INSERT_DIALOG",MAW_RES_CANNOT_INSERT_DIALOG);
  tolua_constant_string(tolua_S,"MAW_SCREEN",MAW_SCREEN);
  tolua_constant_string(tolua_S,"MAW_TAB_SCREEN",MAW_TAB_SCREEN);
  tolua_constant_string(tolua_S,"MAW_STACK_SCREEN",MAW_STACK_SCREEN);
@@ -9740,6 +11324,7 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant_string(tolua_S,"MAW_NUMBER_PICKER",MAW_NUMBER_PICKER);
  tolua_constant_string(tolua_S,"MAW_VIDEO_VIEW",MAW_VIDEO_VIEW);
  tolua_constant_string(tolua_S,"MAW_TOGGLE_BUTTON",MAW_TOGGLE_BUTTON);
+ tolua_constant_string(tolua_S,"MAW_MODAL_DIALOG",MAW_MODAL_DIALOG);
  tolua_constant_string(tolua_S,"MAW_WIDGET_LEFT",MAW_WIDGET_LEFT);
  tolua_constant_string(tolua_S,"MAW_WIDGET_TOP",MAW_WIDGET_TOP);
  tolua_constant_string(tolua_S,"MAW_WIDGET_WIDTH",MAW_WIDGET_WIDTH);
@@ -9780,20 +11365,44 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant_string(tolua_S,"MAW_IMAGE_BUTTON_FONT_HANDLE",MAW_IMAGE_BUTTON_FONT_HANDLE);
  tolua_constant_string(tolua_S,"MAW_IMAGE_IMAGE",MAW_IMAGE_IMAGE);
  tolua_constant_string(tolua_S,"MAW_IMAGE_SCALE_MODE",MAW_IMAGE_SCALE_MODE);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_ANY",MAW_EDIT_BOX_TYPE_ANY);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_EMAILADDR",MAW_EDIT_BOX_TYPE_EMAILADDR);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_NUMERIC",MAW_EDIT_BOX_TYPE_NUMERIC);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_PHONENUMBER",MAW_EDIT_BOX_TYPE_PHONENUMBER);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_URL",MAW_EDIT_BOX_TYPE_URL);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_DECIMAL",MAW_EDIT_BOX_TYPE_DECIMAL);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_SINGLE_LINE",MAW_EDIT_BOX_TYPE_SINGLE_LINE);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_FLAG_PASSWORD",MAW_EDIT_BOX_FLAG_PASSWORD);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_FLAG_SENSITIVE",MAW_EDIT_BOX_FLAG_SENSITIVE);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_FLAG_INITIAL_CAPS_WORD",MAW_EDIT_BOX_FLAG_INITIAL_CAPS_WORD);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_FLAG_INITIAL_CAPS_SENTENCE",MAW_EDIT_BOX_FLAG_INITIAL_CAPS_SENTENCE);
+ tolua_constant(tolua_S,"MAW_EDIT_BOX_FLAG_INITIAL_CAPS_ALL_CHARACTERS",MAW_EDIT_BOX_FLAG_INITIAL_CAPS_ALL_CHARACTERS);
  tolua_constant_string(tolua_S,"MAW_EDIT_BOX_TEXT",MAW_EDIT_BOX_TEXT);
  tolua_constant_string(tolua_S,"MAW_EDIT_BOX_PLACEHOLDER",MAW_EDIT_BOX_PLACEHOLDER);
  tolua_constant_string(tolua_S,"MAW_EDIT_BOX_SHOW_KEYBOARD",MAW_EDIT_BOX_SHOW_KEYBOARD);
  tolua_constant_string(tolua_S,"MAW_EDIT_BOX_EDIT_MODE",MAW_EDIT_BOX_EDIT_MODE);
+ tolua_constant_string(tolua_S,"MAW_EDIT_BOX_INPUT_MODE",MAW_EDIT_BOX_INPUT_MODE);
+ tolua_constant_string(tolua_S,"MAW_EDIT_BOX_INPUT_FLAG",MAW_EDIT_BOX_INPUT_FLAG);
  tolua_constant_string(tolua_S,"MAW_LIST_VIEW_ITEM_TEXT",MAW_LIST_VIEW_ITEM_TEXT);
  tolua_constant_string(tolua_S,"MAW_LIST_VIEW_ITEM_ICON",MAW_LIST_VIEW_ITEM_ICON);
  tolua_constant_string(tolua_S,"MAW_LIST_VIEW_ITEM_ACCESSORY_TYPE",MAW_LIST_VIEW_ITEM_ACCESSORY_TYPE);
+ tolua_constant_string(tolua_S,"MAW_LIST_VIEW_ITEM_FONT_COLOR",MAW_LIST_VIEW_ITEM_FONT_COLOR);
+ tolua_constant_string(tolua_S,"MAW_LIST_VIEW_ITEM_FONT_SIZE",MAW_LIST_VIEW_ITEM_FONT_SIZE);
  tolua_constant_string(tolua_S,"MAW_LIST_VIEW_ITEM_FONT_HANDLE",MAW_LIST_VIEW_ITEM_FONT_HANDLE);
  tolua_constant_string(tolua_S,"MAW_CHECK_BOX_CHECKED",MAW_CHECK_BOX_CHECKED);
  tolua_constant_string(tolua_S,"MAW_TOGGLE_BUTTON_CHECKED",MAW_TOGGLE_BUTTON_CHECKED);
  tolua_constant_string(tolua_S,"MAW_HORIZONTAL_LAYOUT_CHILD_VERTICAL_ALIGNMENT",MAW_HORIZONTAL_LAYOUT_CHILD_VERTICAL_ALIGNMENT);
  tolua_constant_string(tolua_S,"MAW_HORIZONTAL_LAYOUT_CHILD_HORIZONTAL_ALIGNMENT",MAW_HORIZONTAL_LAYOUT_CHILD_HORIZONTAL_ALIGNMENT);
+ tolua_constant_string(tolua_S,"MAW_HORIZONTAL_LAYOUT_PADDING_TOP",MAW_HORIZONTAL_LAYOUT_PADDING_TOP);
+ tolua_constant_string(tolua_S,"MAW_HORIZONTAL_LAYOUT_PADDING_LEFT",MAW_HORIZONTAL_LAYOUT_PADDING_LEFT);
+ tolua_constant_string(tolua_S,"MAW_HORIZONTAL_LAYOUT_PADDING_RIGHT",MAW_HORIZONTAL_LAYOUT_PADDING_RIGHT);
+ tolua_constant_string(tolua_S,"MAW_HORIZONTAL_LAYOUT_PADDING_BOTTOM",MAW_HORIZONTAL_LAYOUT_PADDING_BOTTOM);
  tolua_constant_string(tolua_S,"MAW_VERTICAL_LAYOUT_CHILD_VERTICAL_ALIGNMENT",MAW_VERTICAL_LAYOUT_CHILD_VERTICAL_ALIGNMENT);
  tolua_constant_string(tolua_S,"MAW_VERTICAL_LAYOUT_CHILD_HORIZONTAL_ALIGNMENT",MAW_VERTICAL_LAYOUT_CHILD_HORIZONTAL_ALIGNMENT);
+ tolua_constant_string(tolua_S,"MAW_VERTICAL_LAYOUT_PADDING_TOP",MAW_VERTICAL_LAYOUT_PADDING_TOP);
+ tolua_constant_string(tolua_S,"MAW_VERTICAL_LAYOUT_PADDING_LEFT",MAW_VERTICAL_LAYOUT_PADDING_LEFT);
+ tolua_constant_string(tolua_S,"MAW_VERTICAL_LAYOUT_PADDING_RIGHT",MAW_VERTICAL_LAYOUT_PADDING_RIGHT);
+ tolua_constant_string(tolua_S,"MAW_VERTICAL_LAYOUT_PADDING_BOTTOM",MAW_VERTICAL_LAYOUT_PADDING_BOTTOM);
  tolua_constant_string(tolua_S,"MAW_SEARCH_BAR_TEXT",MAW_SEARCH_BAR_TEXT);
  tolua_constant_string(tolua_S,"MAW_SEARCH_BAR_PLACEHOLDER",MAW_SEARCH_BAR_PLACEHOLDER);
  tolua_constant_string(tolua_S,"MAW_SEARCH_BAR_SHOW_KEYBOARD",MAW_SEARCH_BAR_SHOW_KEYBOARD);
@@ -9835,12 +11444,21 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant_string(tolua_S,"MAW_VIDEO_VIEW_BUFFER_PERCENTAGE",MAW_VIDEO_VIEW_BUFFER_PERCENTAGE);
  tolua_constant_string(tolua_S,"MAW_VIDEO_VIEW_CURRENT_POSITION",MAW_VIDEO_VIEW_CURRENT_POSITION);
  tolua_constant_string(tolua_S,"MAW_NAV_BAR_TITLE",MAW_NAV_BAR_TITLE);
+ tolua_constant_string(tolua_S,"MAW_NAV_BAR_ICON",MAW_NAV_BAR_ICON);
  tolua_constant_string(tolua_S,"MAW_NAV_BAR_BACK_BTN",MAW_NAV_BAR_BACK_BTN);
+ tolua_constant_string(tolua_S,"MAW_NAV_BAR_TITLE_FONT_COLOR",MAW_NAV_BAR_TITLE_FONT_COLOR);
+ tolua_constant_string(tolua_S,"MAW_NAV_BAR_TITLE_FONT_SIZE",MAW_NAV_BAR_TITLE_FONT_SIZE);
+ tolua_constant_string(tolua_S,"MAW_NAV_BAR_TITLE_FONT_HANDLE",MAW_NAV_BAR_TITLE_FONT_HANDLE);
+ tolua_constant_string(tolua_S,"MAW_MODAL_DIALOG_TITLE",MAW_MODAL_DIALOG_TITLE);
+ tolua_constant_string(tolua_S,"MAW_MODAL_DIALOG_ARROW_POSITION",MAW_MODAL_DIALOG_ARROW_POSITION);
+ tolua_constant_string(tolua_S,"MAW_MODAL_DIALOG_USER_CAN_DISMISS",MAW_MODAL_DIALOG_USER_CAN_DISMISS);
  tolua_function(tolua_S,"maWidgetCreate",tolua_lua_maapi_maWidgetCreate00);
  tolua_function(tolua_S,"maWidgetDestroy",tolua_lua_maapi_maWidgetDestroy00);
  tolua_function(tolua_S,"maWidgetAddChild",tolua_lua_maapi_maWidgetAddChild00);
  tolua_function(tolua_S,"maWidgetInsertChild",tolua_lua_maapi_maWidgetInsertChild00);
  tolua_function(tolua_S,"maWidgetRemoveChild",tolua_lua_maapi_maWidgetRemoveChild00);
+ tolua_function(tolua_S,"maWidgetModalDialogShow",tolua_lua_maapi_maWidgetModalDialogShow00);
+ tolua_function(tolua_S,"maWidgetModalDialogHide",tolua_lua_maapi_maWidgetModalDialogHide00);
  tolua_function(tolua_S,"maWidgetScreenShow",tolua_lua_maapi_maWidgetScreenShow00);
  tolua_function(tolua_S,"maWidgetStackScreenPush",tolua_lua_maapi_maWidgetStackScreenPush00);
  tolua_function(tolua_S,"maWidgetStackScreenPop",tolua_lua_maapi_maWidgetStackScreenPop00);
@@ -9902,6 +11520,12 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_function(tolua_S,"SysEventLocationGetHorzAcc",tolua_lua_maapi_SysEventLocationGetHorzAcc00);
  tolua_function(tolua_S,"SysEventLocationGetVertAcc",tolua_lua_maapi_SysEventLocationGetVertAcc00);
  tolua_function(tolua_S,"SysEventLocationGetAlt",tolua_lua_maapi_SysEventLocationGetAlt00);
+ tolua_function(tolua_S,"SysWidgetEventGetType",tolua_lua_maapi_SysWidgetEventGetType00);
+ tolua_function(tolua_S,"SysWidgetEventGetHandle",tolua_lua_maapi_SysWidgetEventGetHandle00);
+ tolua_function(tolua_S,"SysWidgetEventGetListItemIndex",tolua_lua_maapi_SysWidgetEventGetListItemIndex00);
+ tolua_function(tolua_S,"SysWidgetEventGetChecked",tolua_lua_maapi_SysWidgetEventGetChecked00);
+ tolua_function(tolua_S,"SysWidgetEventGetTabIndex",tolua_lua_maapi_SysWidgetEventGetTabIndex00);
+ tolua_function(tolua_S,"SysWidgetEventGetUrlData",tolua_lua_maapi_SysWidgetEventGetUrlData00);
  tolua_function(tolua_S,"SysPointCreate",tolua_lua_maapi_SysPointCreate00);
  tolua_function(tolua_S,"SysPointGetX",tolua_lua_maapi_SysPointGetX00);
  tolua_function(tolua_S,"SysPointGetY",tolua_lua_maapi_SysPointGetY00);

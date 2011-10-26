@@ -49,3 +49,8 @@ end
 -- Bind the Paint function to touch events.
 EventMonitor:OnTouchDown(Paint)
 EventMonitor:OnTouchDrag(Paint)
+
+-- Exit when any key is pressed.
+EventMonitor:OnKeyDown(function(keyCode)
+  EventMonitor:ExitEventLoop()
+end)

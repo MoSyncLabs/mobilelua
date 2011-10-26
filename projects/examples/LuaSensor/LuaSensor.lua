@@ -42,7 +42,7 @@ end
 -- Register sensor listener that draws the screen based
 -- on sensor values.
 EventMonitor:OnSensor(function(type, x, y, z)
-  local red = (x * 255) % 255
+  local red = ((x * 255) / 10) % 255
   local green = (y * 255) % 255
   local blue = (y * 255) % 255
   Screen:SetColor(red, green, blue)

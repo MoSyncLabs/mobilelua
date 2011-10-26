@@ -28,6 +28,8 @@
 #include <MAUtil/String.h>
 #include <MAUtil/Geometry.h>
 #include <MAUI/Font.h>
+#include <MAUI/Font.h>
+#include <IX_WIDGET.h>
 
 extern "C" {
 #include "inc/SystemAPI.h"
@@ -151,7 +153,7 @@ extern "C" void SysTextDrawString(void* textObj, int x, int y, int extent)
 }
 
 /**********************************************************
- * Functions for making it easier to use syscalls from Lua
+ * Functions for using C memory from Lua
  **********************************************************/
 
 /**
@@ -289,6 +291,10 @@ void* SysBufferGetBytePointer(void* buffer, int index)
 	return ((char*) buffer) + index;
 }
 
+/**********************************************************
+ * Functions for getting the size of C data types
+ **********************************************************/
+
 /**
  * Get the size of an int in bytes.
  * @return The size.
@@ -315,6 +321,10 @@ extern "C" int SysSizeOfDouble()
 {
 	return (int) sizeof(double);
 }
+
+/**********************************************************
+ * Functions for bit operations and bit-shift
+ **********************************************************/
 
 extern "C" int SysBitAnd(int a, int b)
 {
@@ -345,6 +355,10 @@ extern "C" int SysBitShiftRight(int a, int bits)
 {
 	return ((unsigned int) a) >> bits;
 }
+
+/**********************************************************
+ * Event functions
+ **********************************************************/
 
 extern "C" MAEvent* SysEventCreate()
 {
@@ -471,6 +485,39 @@ extern "C" float SysEventLocationGetAlt(MAEvent* event)
 	return ((MALocation*)(event->data))->alt;
 }
 
+extern "C" int SysWidgetEventGetType(void* widgetEvent)
+{
+	return ((MAWidgetEventData*)widgetEvent)->eventType;
+}
+
+extern "C" int SysWidgetEventGetHandle(void* widgetEvent)
+{
+	return ((MAWidgetEventData*)widgetEvent)->widgetHandle;
+}
+
+extern "C" int SysWidgetEventGetListItemIndex(void* widgetEvent)
+{
+	return ((MAWidgetEventData*)widgetEvent)->listItemIndex;
+}
+
+extern "C" int SysWidgetEventGetChecked(void* widgetEvent)
+{
+	return ((MAWidgetEventData*)widgetEvent)->checked;
+}
+
+extern "C" int SysWidgetEventGetTabIndex(void* widgetEvent)
+{
+	return ((MAWidgetEventData*)widgetEvent)->tabIndex;
+}
+
+extern "C" int SysWidgetEventGetUrlData(void* widgetEvent)
+{
+	return ((MAWidgetEventData*)widgetEvent)->urlData;
+}
+
+/**********************************************************
+ * Point functions
+ **********************************************************/
 
 extern "C" MAPoint2d* SysPointCreate()
 {
@@ -496,6 +543,10 @@ extern "C" void SysPointSetY(MAPoint2d* point, int y)
 {
 	point->y = y;
 }
+
+/**********************************************************
+ * Rect functions
+ **********************************************************/
 
 extern "C" MARect* SysRectCreate()
 {
@@ -541,6 +592,10 @@ extern "C" void SysRectSetHeight(MARect* rect, int height)
 {
 	rect->height = height;
 }
+
+/**********************************************************
+ * Misc functions and string functions
+ **********************************************************/
 
 extern "C" MACopyData* SysCopyDataCreate(
 	MAHandle dst, int dstOffset, MAHandle src, int srcOffset, int size)

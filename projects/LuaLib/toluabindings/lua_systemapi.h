@@ -205,6 +205,12 @@ double SysEventLocationGetLon(MAEvent* event);
 double SysEventLocationGetHorzAcc(MAEvent* event);
 double SysEventLocationGetVertAcc(MAEvent* event);
 float SysEventLocationGetAlt(MAEvent* event);
+int SysWidgetEventGetType(void* widgetEvent);
+int SysWidgetEventGetHandle(void* widgetEvent);
+int SysWidgetEventGetListItemIndex(void* widgetEvent);
+int SysWidgetEventGetChecked(void* widgetEvent);
+int SysWidgetEventGetTabIndex(void* widgetEvent);
+int SysWidgetEventGetUrlData(void* widgetEvent);
 
 // MAPoint2d
 MAPoint2d* SysPointCreate();

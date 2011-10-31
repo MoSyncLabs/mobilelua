@@ -631,7 +631,6 @@ extern int global_LuaErrorState;
 	lprintfln("LUAI_THROW errorState: %d", global_LuaErrorState); \
 	/*maPanic(0, "luaD_throw");*/ }
 #define LUAI_TRY(L,c,a) if (1) { \
-	lprintfln("LUAI_TRY errorState: %d", global_LuaErrorState); \
 	global_LuaErrorState = 0; \
 	if (1) { a } \
 	global_LuaErrorState = 0; }

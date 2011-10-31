@@ -1,6 +1,6 @@
 /*
 ** Lua binding: lua_maapi
-** Generated automatically by tolua 5.1.4 on Wed Oct 26 15:39:24 2011.
+** Generated automatically by tolua 5.1.4 on Mon Oct 31 11:47:48 2011.
 */
 
 #include "tolua.h"
@@ -11365,24 +11365,10 @@ LUALIB_API int luaopen_lua_maapi (lua_State* tolua_S)
  tolua_constant_string(tolua_S,"MAW_IMAGE_BUTTON_FONT_HANDLE",MAW_IMAGE_BUTTON_FONT_HANDLE);
  tolua_constant_string(tolua_S,"MAW_IMAGE_IMAGE",MAW_IMAGE_IMAGE);
  tolua_constant_string(tolua_S,"MAW_IMAGE_SCALE_MODE",MAW_IMAGE_SCALE_MODE);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_ANY",MAW_EDIT_BOX_TYPE_ANY);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_EMAILADDR",MAW_EDIT_BOX_TYPE_EMAILADDR);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_NUMERIC",MAW_EDIT_BOX_TYPE_NUMERIC);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_PHONENUMBER",MAW_EDIT_BOX_TYPE_PHONENUMBER);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_URL",MAW_EDIT_BOX_TYPE_URL);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_DECIMAL",MAW_EDIT_BOX_TYPE_DECIMAL);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_TYPE_SINGLE_LINE",MAW_EDIT_BOX_TYPE_SINGLE_LINE);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_FLAG_PASSWORD",MAW_EDIT_BOX_FLAG_PASSWORD);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_FLAG_SENSITIVE",MAW_EDIT_BOX_FLAG_SENSITIVE);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_FLAG_INITIAL_CAPS_WORD",MAW_EDIT_BOX_FLAG_INITIAL_CAPS_WORD);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_FLAG_INITIAL_CAPS_SENTENCE",MAW_EDIT_BOX_FLAG_INITIAL_CAPS_SENTENCE);
- tolua_constant(tolua_S,"MAW_EDIT_BOX_FLAG_INITIAL_CAPS_ALL_CHARACTERS",MAW_EDIT_BOX_FLAG_INITIAL_CAPS_ALL_CHARACTERS);
  tolua_constant_string(tolua_S,"MAW_EDIT_BOX_TEXT",MAW_EDIT_BOX_TEXT);
  tolua_constant_string(tolua_S,"MAW_EDIT_BOX_PLACEHOLDER",MAW_EDIT_BOX_PLACEHOLDER);
  tolua_constant_string(tolua_S,"MAW_EDIT_BOX_SHOW_KEYBOARD",MAW_EDIT_BOX_SHOW_KEYBOARD);
  tolua_constant_string(tolua_S,"MAW_EDIT_BOX_EDIT_MODE",MAW_EDIT_BOX_EDIT_MODE);
- tolua_constant_string(tolua_S,"MAW_EDIT_BOX_INPUT_MODE",MAW_EDIT_BOX_INPUT_MODE);
- tolua_constant_string(tolua_S,"MAW_EDIT_BOX_INPUT_FLAG",MAW_EDIT_BOX_INPUT_FLAG);
  tolua_constant_string(tolua_S,"MAW_LIST_VIEW_ITEM_TEXT",MAW_LIST_VIEW_ITEM_TEXT);
  tolua_constant_string(tolua_S,"MAW_LIST_VIEW_ITEM_ICON",MAW_LIST_VIEW_ITEM_ICON);
  tolua_constant_string(tolua_S,"MAW_LIST_VIEW_ITEM_ACCESSORY_TYPE",MAW_LIST_VIEW_ITEM_ACCESSORY_TYPE);

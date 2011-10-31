@@ -109,7 +109,8 @@ EventMonitor = (function ()
       while isRunning and 0 ~= maGetEvent(event) do
         local eventType = SysEventGetType(event)
         if EVENT_TYPE_CLOSE == eventType then
-          break -- Exit while loop.
+          isRunning = false
+          break -- Exit inner while loop.
         elseif EVENT_TYPE_KEY_PRESSED == eventType then
           if nil ~= keyDownFun then
             keyDownFun(SysEventGetKey(event))

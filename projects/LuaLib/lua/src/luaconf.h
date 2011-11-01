@@ -530,10 +530,27 @@
 */
 #if defined(LUA_CORE)
 #include <math.h>
+
+// Helper function handling division by zero.
+// This is a (temporary) solution to a bug in MoRE (the MoSync
+// emulator) that causes panic when dividing doble by zero.
+// TODO: Does not handle 1/-0 correctly, this should return -HUGE_VAL.
+#ifdef MOSYNC
+static double mosync_luai_numdiv(double a, double b)
+{
+	if (0.0 == b && a >= 0.0) { return HUGE_VAL; }
+	if (0.0 == b && a < 0.0) { return -HUGE_VAL; }
+	return a / b;
+}
+#endif
 #define luai_numadd(a,b)	((a)+(b))
 #define luai_numsub(a,b)	((a)-(b))
 #define luai_nummul(a,b)	((a)*(b))
+#ifdef MOSYNC
+#define luai_numdiv(a,b)	(mosync_luai_numdiv(a,b))
+#else
 #define luai_numdiv(a,b)	((a)/(b))
+#endif
 #define luai_nummod(a,b)	((a) - floor((a)/(b))*(b))
 #define luai_numpow(a,b)	(pow(a,b))
 #define luai_numunm(a)		(-(a))

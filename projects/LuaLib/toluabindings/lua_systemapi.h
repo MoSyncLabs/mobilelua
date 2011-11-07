@@ -259,7 +259,7 @@ char* SysStringWideCharToChar(const void* wstr);
  * Helper method that reads a text string from resource file.
  * In C it is the responsibility of the caller to deallocate the
  * returned string with SysFree. When called from Lua, a Lua string
- * will be returned.
+ * will be returned, which does not need to be deallocated.
  */
 char* SysLoadStringResource(MAHandle handle);
 

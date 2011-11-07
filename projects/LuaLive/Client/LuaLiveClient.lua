@@ -56,30 +56,106 @@
 
 -- Run Lua code on the client. After this command follows
 -- a length int and a string of byte-size characters.
-local COMMAND_RUN_LUA_SCRIPT = 1
+COMMAND_RUN_LUA_SCRIPT = 1
 
 -- Reset the interpreter state.
-local COMMAND_RESET = 2
+COMMAND_RESET = 2
 
 -- Reply from client to server. After this command follows
 -- a length int and a string of byte-size characters.
-local COMMAND_REPLY = 3
+COMMAND_REPLY = 3
 
 -- Server address and port.
 -- TODO: Change the server address to the one used on your machine.
 -- When running in the Android emulator, use 10.0.2.2 for localhost.
 --local SERVER_DEFAULT_ADDRESS = "192.168.0.114"
-local SERVER_DEFAULT_ADDRESS = "10.0.2.2"
-local SERVER_PORT = ":55555"
+SERVER_DEFAULT_ADDRESS = "10.0.2.2"
+SERVER_PORT = ":55555"
 
--- The connection object
-local Connection
+-- The connection object.
+Connection = nil
+
+-- Function used for printing. Is set below.
+Info = nil
 
 function Main()
-  print("Welcome to Lua Live !")
-  print("Press BACK or Key 0 to exit.")
+  UseTextBasedUI()
+  --UseGraphicalUI()
+end
+
+-- Create a text-based user interface,
+-- this will work on all MoSync platforms.
+-- But you will have to edit the hardcoded
+-- IP-address.
+function UseTextBasedUI()
+  Info = print
+  Info("Welcome to Lua Live !")
+  Info("Press BACK or Key 0 to exit.")
   EventMonitor:OnKeyDown(OnKeyDown)
-  ConnectToServer()
+  ConnectToServer(SERVER_DEFAULT_ADDRESS)
+end
+
+-- Create a UI with a WebView for the start-up screen
+-- of the client. This will work on platforms that
+-- support NativeUI.
+function UseGraphicalUI()
+  Info = log
+  
+  -- Enable to use back key on Android to exit app.
+  EventMonitor:OnKeyDown(OnKeyDown)
+  
+  -- Create and show a WebView widget.
+  local webview = maWidgetCreate(MAW_WEB_VIEW)
+  maWidgetSetProperty(webview, MAW_WIDGET_WIDTH, "-1")
+  maWidgetSetProperty(webview, MAW_WIDGET_HEIGHT, "-1")
+  maWidgetSetProperty(webview, MAW_WEB_VIEW_ENABLE_ZOOM, "true")
+  local screen = maWidgetCreate(MAW_SCREEN)
+  maWidgetAddChild(screen, webview)
+  maWidgetScreenShow(screen)
+
+  -- HTML for the WebView.
+  maWidgetSetProperty(webview, MAW_WEB_VIEW_HTML,
+[==[
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function EvalLuaScript(script)
+{
+  window.location = "lua://" + script
+}
+
+function Connect()
+{
+  EvalLuaScript("ConnectToServer('10.0.2.2')")
+}
+</script>
+</head>
+
+<body>
+<div id="MainUI">
+  <div id="Heading">Welcome to the LuaLive client!</div> 
+  <div id="Instruction">Enter the ip-address or the LuaLive Editor 
+    and connect.</div>
+  <input
+    id="ServerIPAddress"
+    type="text"
+    value="10.0.2.2"/>
+  <input 
+    id="ConnectButton"
+    type="button"
+    value="Connect"
+    onclick="Connect()"/>
+</div>
+</body>
+</html>
+]==])
+
+  -- Set hook pattern.
+  maWidgetSetProperty(webview, MAW_WEB_VIEW_HARD_HOOK, "lua://.*")
+  
+  -- Function used for processing hook events.
+  EventMonitor:OnWidget(HandleWidgetEvent)
 end
 
 function OnKeyDown(key)
@@ -88,21 +164,40 @@ function OnKeyDown(key)
   end
 end
 
-function ConnectToServer()
-  print("Connecting to " .. SERVER_DEFAULT_ADDRESS)
+-- Process the HOOK_INVOKED event.
+function HandleWidgetEvent(widgetEvent)
+  if MAW_EVENT_WEB_VIEW_HOOK_INVOKED == SysWidgetEventGetType(widgetEvent) then
+    -- Get the url string.
+    local urlData = SysWidgetEventGetUrlData(widgetEvent)
+    local url = SysLoadStringResource(urlData)
+    -- Get the Lua script.
+    local start,stop = url:find("lua://")
+    if nil ~= start then
+      local script = url:sub(stop + 1)
+      local fun = loadstring(script)
+      if nil ~= fun then
+        pcall(fun)
+      end
+    end
+    maDestroyObject(urlData)
+  end
+end
+
+function ConnectToServer(serverAddress)
+  Info("Connecting to " .. serverAddress)
   Connection = SysConnectionCreate()
   Connection:Connect(
-    "socket://" .. SERVER_DEFAULT_ADDRESS .. SERVER_PORT,
+    "socket://" .. serverAddress .. SERVER_PORT,
     ConnectionEstablished)
 end
 
 function ConnectionEstablished(result)
   if result > 0 then
-    print("Successfully connected.")
+    Info("Successfully connected.")
     -- Read from server.
     ReadCommand()
   else
-    print("Failed to connect - error: " .. result)
+    Info("Failed to connect - error: " .. result)
   end
 end
 
@@ -130,14 +225,14 @@ function MessageHeaderReceived(buffer, result)
 end
 
 function ScriptReceived(buffer, result)
-  local fun
-  local resultOrErrorMessage
-  local success = false
   -- Process the result.
   log("ScriptReceived")
   if result > 0 then
     -- Convert buffer to string.
     local script = SysBufferToString(buffer)
+    local fun
+    local resultOrErrorMessage
+    local success = false
     -- Parse script.
     fun, resultOrErrorMessage = loadstring(script)
     if nil ~= fun then

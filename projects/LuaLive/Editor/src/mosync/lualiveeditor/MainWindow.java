@@ -2,6 +2,7 @@ package mosync.lualiveeditor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,17 +19,18 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import javax.swing.Box;
-import java.awt.Container;
 import javax.swing.BoxLayout;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
+import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
@@ -55,6 +57,7 @@ public class MainWindow extends JFrame
 	JTextArea mCodeArea;
 	MainWindow mSelf;
 	String mCurrentFileName;
+	JTree mFileTree;
 
 	public MainWindow()
 	{
@@ -238,9 +241,32 @@ public class MainWindow extends JFrame
 		mainEditor.setLayout(new BoxLayout(mainEditor, BoxLayout.PAGE_AXIS));
 		mainEditor.add(scrollPane, BorderLayout.CENTER);
 
-		// Add components.
-		this.add(toolPanel, BorderLayout.SOUTH);
-		this.add(mainEditor);
+		// Tabbed panes?
+//		JTabbedPane tabbedPane = new JTabbedPane();
+//        tabbedPane.addTab("Custom properties", null, propertyUI,
+//                "Custom properties");
+//        tabbedPane.addTab("Widget editor", null, widgetEditor,
+//                "Custom properties");
+
+// TODO: Add the split pane for the file tree.
+//		// File list pane.
+//	    mFileTree = new FileTreeComponent(sDefaultDirectory);
+//	    JScrollPane fileListScrollPane = new JScrollPane(mFileTree);
+//
+//		// Split pane.
+//		JSplitPane splitPane = new JSplitPane(
+//            JSplitPane.HORIZONTAL_SPLIT,
+//            fileListScrollPane,
+//            mainEditor);
+//        splitPane.setOneTouchExpandable(true);
+//        splitPane.setDividerLocation(200);
+//
+//        // Add components.
+//        this.add(toolPanel, BorderLayout.SOUTH);
+//        this.add(splitPane, BorderLayout.CENTER);
+
+        this.add(toolPanel, BorderLayout.SOUTH);
+        this.add(mainEditor, BorderLayout.CENTER);
 
 		// Set window size and show the window.
 		setSize(1000, 700);

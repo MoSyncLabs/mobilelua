@@ -19,10 +19,10 @@
 <property key="build.prefs:ignore.default.include.paths/Release" value="false"/>
 <property key="build.prefs:ignore.default.libraries/Release" value="false"/>
 <property key="build.prefs:ignore.default.library.paths/Release" value="false"/>
-<property key="build.prefs:memory.data/Debug" value="4096"/>
-<property key="build.prefs:memory.data/Release" value="4096"/>
-<property key="build.prefs:memory.heap/Debug" value="2048"/>
-<property key="build.prefs:memory.heap/Release" value="2048"/>
+<property key="build.prefs:memory.data/Debug" value="2048"/>
+<property key="build.prefs:memory.data/Release" value="2048"/>
+<property key="build.prefs:memory.heap/Debug" value="1280"/>
+<property key="build.prefs:memory.heap/Release" value="1280"/>
 <property key="build.prefs:memory.stack/Debug" value="512"/>
 <property key="build.prefs:memory.stack/Release" value="512"/>
 <property key="build.prefs:project.type" value=""/>

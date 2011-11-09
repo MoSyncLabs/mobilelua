@@ -212,6 +212,7 @@ Screen = (function()
 end)()
 
 -- Function that creates a connection object.
+-- Data that is read is zero terminated.
 function SysConnectionCreate()
   -- Table holding the object's methods.
   local self = {}
@@ -335,3 +336,143 @@ function SysConnectionCreate()
 
   return self
 end
+
+-- Widget size values as strings (the MAW_CONSTANT_* values
+-- are integers and cannot be used with maWidgetSetProperty).
+FILL_PARENT = ""..MAW_CONSTANT_FILL_AVAILABLE_SPACE
+WRAP_CONTENT = ""..MAW_CONSTANT_WRAP_CONTENT
+
+-- Create the global NativeUI manager object.
+NativeUI = (function()
+
+  -- The UI manager object.
+  local uiManager = {}
+
+  -- Table that maps widget handles to event functions.
+  local mWidgetHandleToEventFun = {}
+
+  -- Table that maps widget handles to widget objects.
+  local mWidgetHandleToWidgetObject = {}
+  
+  -- Has the UI manager been initialised?
+  local mIsInitialized = false
+  
+  -- Utility method that sets a table field to a value 
+  -- if the field is nil. Intended for internal use.
+  uiManager.__SetPropIfNil__ = function(self, proplist, key, value)
+    if nil == proplist[key] then
+      proplist[key] = value
+      --log("Setting prop "..key.." to "..value)
+    end
+  end
+  
+  -- Function that creates a widget. The parameter
+  -- proplist is a table with widget properties.
+  -- Valid property names are properties available for
+  -- maWidgetSetProperty, plus "type", "parent", 
+  -- "eventFun", and "data". The "data" property is
+  -- user for setting custom data associated with
+  -- the widget object. The widget object is a Lua
+  -- object (table), it wraps a widhet handle, which
+  -- identifies a Native UI widget.
+  uiManager.CreateWidget = function(self, proplist)
+  
+    -- The widget object.
+    local widget = {}
+    
+    -- Create the Native UI widget and check that it went ok.
+    local mWidgetHandle = maWidgetCreate(proplist.type)
+    if mWidgetHandle < 1 then
+      return nil
+    end
+  
+    -- Returns the Native UI widget handle.
+    widget.GetHandle = function(self)
+      return mWidgetHandle
+    end
+    
+    -- Utility method that sets a widget property. The 
+    -- value can be either a number or a string, it will
+    -- be converted to a string since that is what
+    -- maWidgetSetProperty wants.
+    widget.SetProp = function(self, property, value)
+      -- Make sure value is always a string.
+      maWidgetSetProperty(self:GetHandle(), property, ""..value)
+    end
+
+    -- Set properties of the widget. Properties "parent", "type",
+    -- "eventFun", and "data" are handled as special cases.
+    for prop,value in pairs(proplist) do
+      if "parent" == prop then
+        maWidgetAddChild(value:GetHandle(), mWidgetHandle)
+      elseif "eventFun" == prop then
+        -- Add function as event handler for this widget.
+        mWidgetHandleToEventFun[mWidgetHandle] = value
+        -- Also add the widget to the widget handle table.
+        mWidgetHandleToWidgetObject[mWidgetHandle] = widget
+      elseif "data" == prop then
+        widget.data = value
+      elseif "type" ~= prop then
+        widget:SetProp(prop, value)
+      end
+    end
+
+    return widget
+  end
+  
+  -- Method that creates a button widget with some
+  -- default property values.
+  uiManager.CreateButton = function(self, proplist)
+    proplist.type = "Button"
+    self:__SetPropIfNil__(proplist, "width", WRAP_CONTENT)
+    self:__SetPropIfNil__(proplist, "height", WRAP_CONTENT)
+    self:__SetPropIfNil__(proplist, "textHorizontalAlignment", "center")
+    self:__SetPropIfNil__(proplist, "textVerticalAlignment", "center")
+    self:__SetPropIfNil__(proplist, "fontSize", "24")
+    return self:CreateWidget(proplist)
+  end
+
+  -- TODO: Add more convenience methods for creating widgets.
+  
+  -- Show a screen widget.
+  uiManager.ShowScreen = function(self, screen)
+    -- At this point we initialize the UI manager, if needed.
+    self:Init()
+    maWidgetScreenShow(screen:GetHandle())
+  end
+  
+  -- Show the deafult MoSync screen.
+  uiManager.ShowDefaultScreen = function(self)
+    maWidgetScreenShow(0)
+  end
+  
+  -- Call this method to start listening for Widget events.
+  -- This could have been done right when creating the
+  -- UI maneger object, but since we have only one widget event
+  -- listener function in EventMonitor, it will ve overwritten
+  -- by the widget event listener in the LuaLive client. Then
+  -- the application using NativeUI will not work.
+  -- TODO: Fix this.
+  uiManager.Init = function(self)
+    if not mIsInitialized then
+      mIsInitialized = true
+      -- Create widget event handler that dispatches to
+      -- the registered widget event functions.
+      EventMonitor:OnWidget(function(widgetEvent)
+        -- Get the widget handle of the event.
+        local widgetHandle = SysWidgetEventGetHandle(widgetEvent)
+        -- Get the event function and the widget object.
+        local eventFun = mWidgetHandleToEventFun[widgetHandle]
+        local widget = mWidgetHandleToWidgetObject[widgetHandle]
+        -- Do we have an event function for this widget?
+        if nil ~= eventFun then
+          -- Yes we have, call the function.
+          eventFun(widget, widgetEvent)
+        end
+      end)
+    end
+  end
+  
+  return uiManager
+  
+end)()

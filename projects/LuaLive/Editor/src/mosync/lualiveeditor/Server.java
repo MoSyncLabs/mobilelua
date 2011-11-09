@@ -234,6 +234,8 @@ public class Server extends MessageThread
 
 		// TODO: Make two threads out of this method, one for processing
 		// incoming messages and one for writing data to client.
+		// Perhaps this is not really needed? Perhaps synchronous
+		// responses are adequate?
 		public void worker() throws IOException
 		{
 			OutputStream out = mSocket.getOutputStream();
@@ -284,7 +286,7 @@ public class Server extends MessageThread
 				}
 
 				// Wait for result.
-				// TODO: Make this asynchronous. Do not wait!
+				// TODO: Make this asynchronous? No wait?
 
 				// TODO: We should change to a dynamically allocated buffer.
 				int bufSize = 100 * 1024;

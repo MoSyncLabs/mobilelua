@@ -436,7 +436,7 @@ NativeUI = (function()
   
   -- Show a screen widget.
   uiManager.ShowScreen = function(self, screen)
-    -- At this point we initialize the UI manager, if needed.
+    -- Initializes the UI manager if not done.
     self:Init()
     maWidgetScreenShow(screen:GetHandle())
   end
@@ -444,6 +444,20 @@ NativeUI = (function()
   -- Show the deafult MoSync screen.
   uiManager.ShowDefaultScreen = function(self)
     maWidgetScreenShow(0)
+  end
+  
+  -- Register an event function for the supplied widget handle.
+  -- This method is useful if you wish to use the bare MoSync
+  -- Widget API and still have the benefit of attaching event
+  -- handler functions to widgets. Note that the widhetHandle
+  -- parameter is a handle to a MoSync widget (it is NOT a Lua
+  -- widget object). To unregister an event function, it should
+  -- work to pass nil as the eventFun parameter.
+  uiManager.OnWidgetEvent = function(self, widgetHandle, eventFun)
+    -- Initializes the UI manager if not done.
+    self:Init()
+    -- Add function as event handler for this widget.
+    mWidgetHandleToEventFun[widgetHandle] = eventFun
   end
   
   -- Call this method to start listening for Widget events.
@@ -464,10 +478,15 @@ NativeUI = (function()
         -- Get the event function and the widget object.
         local eventFun = mWidgetHandleToEventFun[widgetHandle]
         local widget = mWidgetHandleToWidgetObject[widgetHandle]
-        -- Do we have an event function for this widget?
-        if nil ~= eventFun then
-          -- Yes we have, call the function.
+        if nil ~= eventFun and nil ~= widget then
+          -- We have both an event function and a widget object.
+		  -- Call the function with the object and the widget
+		  -- event as parameters.
           eventFun(widget, widgetEvent)
+        elseif nil ~= eventFun then
+          -- We have an event function.
+		  -- Call the function.
+          eventFun(widgetEvent)
         end
       end)
     end

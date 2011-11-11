@@ -211,9 +211,10 @@ Screen = (function()
 
 end)()
 
--- Function that creates a connection object.
--- Data that is read is zero terminated.
-function SysConnectionCreate()
+-- Global Connection object. Data that is read is zero terminated.
+Connection = {}
+
+Connection.Create = function(notUsed)
   -- Table holding the object's methods.
   local self = {}
 
@@ -336,6 +337,9 @@ function SysConnectionCreate()
 
   return self
 end
+
+-- For backwards compatibility.
+SysConnectionCreate = Connection.Create
 
 -- Widget size values as strings (the MAW_CONSTANT_* values
 -- are integers and cannot be used with maWidgetSetProperty).
@@ -462,7 +466,7 @@ NativeUI = (function()
   
   -- Call this method to start listening for Widget events.
   -- This could have been done right when creating the
-  -- UI maneger object, but since we have only one widget event
+  -- UI manager object, but since we have only one widget event
   -- listener function in EventMonitor, it will ve overwritten
   -- by the widget event listener in the LuaLive client. Then
   -- the application using NativeUI will not work.

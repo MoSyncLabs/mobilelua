@@ -438,7 +438,7 @@ NativeUI = (function()
 
   -- TODO: Add more convenience methods for creating widgets.
   
-  -- Show a screen widget.
+  -- Show a screen widget. The screen widget is a Lua object.
   uiManager.ShowScreen = function(self, screen)
     -- Initializes the UI manager if not done.
     self:Init()
